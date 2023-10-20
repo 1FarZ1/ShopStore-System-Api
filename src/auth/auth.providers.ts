@@ -8,14 +8,15 @@ export const databaseProviders = [
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',
-        host: 'localhost',
-        port: 3000,
+        host: '127.0.0.1',
+        port: 3306,
         username: 'root',
-        password: 'root',
         database: 'test',
         entities: [User,Product],
         synchronize: false,
       });
+      
+
 
       return dataSource.initialize();
     },
