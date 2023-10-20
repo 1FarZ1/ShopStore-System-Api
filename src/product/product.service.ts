@@ -1,51 +1,36 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
-import { Product } from './product';
+import { Inject, Injectable } from '@nestjs/common';
+import { Product } from './product.entity';
+import { Repository } from 'typeorm';
 
-function generateNumberList(length: number): number[] {
-    const result = [];
-    for (let i = 0; i < length; i++) {
-      result.push(i);
-    }
-    return result;
-  }
-  
-  const productsList = generateNumberList(10).map((i) => {
-    return new Product(i, `Product ${i}`, `This is product #${i}`, i * 100);
-  });
 
 @Injectable()
 export class ProductService {
-  products: Product[] = productsList;
-  getAllProducts(): Product[] {
-    return this.products;
+  constructor(
+    @Inject('PRODUCT_REPOSITORT')
+    private productRepository: Repository<Product>,
+
+
+  ) {}
+  async getAllProducts(): Promise<Product[]> {
+    return  this.productRepository.find();
   }
 
-  getProductDetaills(productId: string): Product {
-    return this.products[Number.parseInt(productId)];
+  async  getProductDetaills(productId: string): Promise<Product>   {
+    return this.productRepository.
+    findOneBy({id: parseInt(productId, 10)})
   }
 
-  addProduct(product: Product): Product {
-    this.products.push(product);
-    return product;
+  async addProduct(product: Product): Promise<Product> {
+    return this.productRepository.save(product);
   }
-  updateProductDetaills(productId: string): Product {
-    this.products = this.products.map((p) => {
-      console.log(productId);
+  // async updateProductDetaills(productId: string): Promise<Product> {
+  //   return this.productRepository.findOne(productId);
+    
+  // }
 
-      if (p.id == Number.parseInt(productId)) {
-        p.name = 'updated';
-      }
-
-      return p;
-    });
-    return this.products[Number.parseInt(productId)];
-  }
-
-  deleteProduct(productId: string): Product {
-    this.products = this.products.filter(
-      (p) => p.id != Number.parseInt(productId),
-    );
-    return this.products[Number.parseInt(productId)];
+  async deleteProduct(productId: string): Promise<boolean> {
+    const result = await this.productRepository.delete(productId);
+    return result.affected > 0;
   }
 }
