@@ -22,6 +22,4 @@ export class Product {
   @Column({ nullable:true,  })
   image: string;
 
-
-  
 }

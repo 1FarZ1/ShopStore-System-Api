@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Controller, Get, Response, Request, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
