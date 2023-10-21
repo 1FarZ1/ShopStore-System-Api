@@ -27,10 +27,12 @@ export class ProductController {
     return this.appService.getProductDetaills(productId);
   }
 
-  // add
+
   @Post('/detaills')
-  async addProduct(@Body() product: Product): Promise<Product> {
-    return this.appService.addProduct(product);
+  async addProduct(@Body('name') name :string , @Body('price') price:number ,@Body('description') description:string,@Body('image') image:string ): Promise<Product> {
+    return this.appService.addProduct(
+      name, price,description,image
+    );
   }
 
   // @Post('/detaills/:productId')

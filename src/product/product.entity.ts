@@ -1,7 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-Entity();
+@Entity(
+  {
+    name: 'product',
+  },
+)
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,14 +13,14 @@ export class Product {
   @Column({ length: 20 })
   name: string;
   
-    @Column({ length: 40 ,unique:true, nullable:false,  })
-    description: string;
+  @Column({ length: 40 ,unique:true, nullable:false,  })
+  description: string;
     
-    @Column({ length: 20 , nullable:false,  })
-    price: string;
+  @Column({nullable:false,  })
+  price: number;
 
-    @Column({ nullable:true,  })
-    image: string;
+  @Column({ nullable:true,  })
+  image: string;
 
 
   

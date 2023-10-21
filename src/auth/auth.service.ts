@@ -4,6 +4,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AuthService {
   login(): string {
-    return 'Hello World!';
+    return 'This action returns all cats';
   }
 }
