@@ -3,7 +3,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
-  login(): string {
-    return 'This action returns all cats';
+  login(email: string, password: string): boolean {
+    if (email === 'f_bekkouche@estin' && password === '123456') {
+      return true;
+    }
+    return false;
   }
 }
