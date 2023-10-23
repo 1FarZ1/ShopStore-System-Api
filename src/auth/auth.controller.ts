@@ -1,6 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { User } from './user.entity';
 
+type Result = {
+  user: User;
+  message: string;
+};
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -11,12 +16,9 @@ export class AuthController {
     @Body('password') password: string,
   ): Promise<any> {
     if (!email || !password) {
-      return {
-        statusCode: 400,
-        message: 'email or password is missing',
-      };
+      return new BadRequestException('email or password is missing');
     }
-    const result = await this.authService.login(email, password);
+    const result: Result = await this.authService.login(email, password);
     return {
       statusCode: 201,
       message: 'login successful',
@@ -30,12 +32,13 @@ export class AuthController {
     @Body('name') name: string,
   ): Promise<any> {
     if (!email || !password || !name) {
-      return {
-        statusCode: 400,
-        message: 'email or password or name is missing',
-      };
+      return new BadRequestException('email or password or name is missing');
     }
-    const result = await this.authService.register(email, password, name);
+    const result: Result = await this.authService.register(
+      email,
+      password,
+      name,
+    );
     return {
       statusCode: 201,
       message: 'register successful',

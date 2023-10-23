@@ -7,7 +7,14 @@ import {
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
 
+class Utils {
+  static comparePassword(password: string, hash: string): boolean {
+    // return bcrypt.compareSync(password, hash);
+    return password === hash;
+  }
+}
 @Injectable()
 export class AuthService {
   constructor(
@@ -21,15 +28,15 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException("User doesn't exist!");
     }
+    const isMatch = Utils.comparePassword(password, user.password);
+    if (!isMatch) {
+      throw new BadRequestException('Wrong credentials !');
+    }
 
     return {
       message: 'user created',
       user: user,
     };
-    // const isMatch = comparePassword(password, user.password);
-    // if (!isMatch) {
-    //   throw new BadRequestException('Wrong credentials !');
-    // }
   }
   async register(email: string, password: string, name: string) {
     const isExistUser = await this.userRepository.findOneBy({
@@ -50,9 +57,5 @@ export class AuthService {
       message: 'user created',
       user: user,
     };
-    // const isMatch = comparePassword(password, user.password);
-    // if (!isMatch) {
-    //   throw new BadRequestException('Wrong credentials !');
-    // }
   }
 }
