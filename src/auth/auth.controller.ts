@@ -1,9 +1,9 @@
 import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { User } from './user.entity';
+// import { User } from './user.entity';
 
 type Result = {
-  user: User;
+  access_token: string;
   message: string;
 };
 @Controller('auth')
@@ -22,7 +22,7 @@ export class AuthController {
     return {
       statusCode: 201,
       message: 'login successful',
-      user: result.user,
+      access_token: result.access_token,
     };
   }
   @Post('/register')
@@ -42,7 +42,7 @@ export class AuthController {
     return {
       statusCode: 201,
       message: 'register successful',
-      user: result.user,
+      access_token: result.access_token,
     };
   }
 }
