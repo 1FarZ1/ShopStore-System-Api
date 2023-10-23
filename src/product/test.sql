@@ -1,7 +1,8 @@
--- CREATE TABLE product (
---     id serial PRIMARY KEY,
+-- CREATE TABLE user(
+--     id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 --     name varchar(255) NOT NULL,
---     price numeric(10,2) NOT NULL,
---     created_at timestamp NOT NULL DEFAULT NOW(),
---     updated_at timestamp NOT NULL DEFAULT NOW()
+--     email varchar(255) NOT NULL,
+--     password varchar(255) NOT NULL,
+--     image varchar(255) NOT NULL,
+
 -- );
