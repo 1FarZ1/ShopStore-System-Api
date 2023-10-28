@@ -15,12 +15,15 @@ export class ProductService {
 
   ) {}
   async getAllProducts(
-    page: number , pageSize: number 
+    
+      page = 1,
+      pageSize = '10',
+    
   ): Promise<Product[]> {
     // return  this.productRepository.find(// );
 
 
-    const offset = (page - 1) * pageSize;
+    const offset = (page - 1) * Number.parseInt(pageSize);
     console.log(
       '🚀 ~ file: product.service.ts ~ line 66 ~ ProductService ~ getAllProducts ~ offset',
       offset,
@@ -40,7 +43,7 @@ export class ProductService {
     
     return this.dataSource.query(
       `SELECT * FROM product LIMIT ? OFFSET ?`,
-      [pageSize, offset]
+      [Number.parseInt(pageSize), offset]
 
     );
   }

@@ -23,7 +23,7 @@ import { Product } from './entity/product.entity';
 
 type QueryType = {
   page: number;
-  limit: number;
+  limit: string;
 };
 @Controller('products')
 export class ProductController {
@@ -34,11 +34,7 @@ export class ProductController {
     @Query() query: QueryType,
   )
   : Promise<Product[]> {
-    console.log(
-      '🚀 ~ file: product.controller.ts ~ line 50 ~ ProductController ~ getAllProducts ~ query',
-      query,
-    
-    );
+   
     return this.appService.getAllProducts(
       query.page, query.limit
     );
@@ -48,6 +44,7 @@ export class ProductController {
   async getProductDetaills(
     @Param('productId') productId: string,
   ): Promise<Product> {
+    
     return this.appService.getProductDetaills(productId);
   }
 
