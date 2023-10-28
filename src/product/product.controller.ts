@@ -7,17 +7,41 @@ import {
   Get,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
 
+
+
+// class ProductDto {
+//   name: string;
+//   price: number;
+//   description: string;
+//   image: string;
+// }
+
+type QueryType = {
+  page: number;
+  limit: number;
+};
 @Controller('products')
 export class ProductController {
   constructor(private readonly appService: ProductService) {}
 
   @Get()
-  async getAllProducts(): Promise<Product[]> {
-    return this.appService.getAllProducts();
+  async getAllProducts(
+    @Query() query: QueryType,
+  )
+  : Promise<Product[]> {
+    console.log(
+      '🚀 ~ file: product.controller.ts ~ line 50 ~ ProductController ~ getAllProducts ~ query',
+      query,
+    
+    );
+    return this.appService.getAllProducts(
+      query.page, query.limit
+    );
   }
 
   @Get('/detaills/:productId')

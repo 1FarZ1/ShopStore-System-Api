@@ -14,10 +14,34 @@ export class ProductService {
 
 
   ) {}
-  async getAllProducts(): Promise<Product[]> {
+  async getAllProducts(
+    page: number , pageSize: number 
+  ): Promise<Product[]> {
     // return  this.productRepository.find(// );
+
+
+    const offset = (page - 1) * pageSize;
+    console.log(
+      '🚀 ~ file: product.service.ts ~ line 66 ~ ProductService ~ getAllProducts ~ offset',
+      offset,
+
+    )
+
+    console.log(
+      '🚀 ~ file: product.service.ts ~ line 66 ~ ProductService ~ getAllProducts ~ pageSize',
+      pageSize,
+    );
+
+    console.log(
+      '🚀 ~ file: product.service.ts ~ line 66 ~ ProductService ~ getAllProducts ~ page',
+      page,
+    );
+    
+    
     return this.dataSource.query(
-      `SELECT * FROM products`,
+      `SELECT * FROM product LIMIT ? OFFSET ?`,
+      [pageSize, offset]
+
     );
   }
 
@@ -26,7 +50,7 @@ export class ProductService {
     // findOneBy({id: parseInt(productId, 10)})
     // ;
     const product:Product = await this.dataSource.query(
-      `SELECT * FROM products WHERE id = '${productId}'`,
+      `SELECT * FROM product WHERE id = '${productId}'`,
     );
     return product;
   }
@@ -44,7 +68,7 @@ export class ProductService {
     
     // return this.productRepository.save(product);
     const result : Product = await this.dataSource.query(
-      `INSERT INTO products (name, price, description, image) VALUES ('${name}', '${price}', '${description}', '${image}') RETURNING *`,
+      `INSERT INTO product (name, price, description, image) VALUES ('${name}', '${price}', '${description}', '${image}') RETURNING *`,
     );
     return result[0];
   }
@@ -56,7 +80,7 @@ export class ProductService {
   async deleteProduct(productId: string): Promise<boolean> {
     // const result = await this.productRepository.delete(productId);
     const result = await this.dataSource.query(
-      `DELETE FROM products WHERE id = '${productId}'`,
+      `DELETE FROM product WHERE id = '${productId}'`,
     );
     return result.affected > 0;
   }
