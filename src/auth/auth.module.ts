@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { userProvider } from './auth.providers';
-import { databaseProviders } from 'src/db.providers';
+import { databaseProviders } from 'src/common/db.providers';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -15,6 +15,5 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  exports: [...databaseProviders],
 })
 export class AuthModule {}
