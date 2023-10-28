@@ -11,19 +11,15 @@ import {
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
+import { ProductDto } from './dto/product_dto';
 
 
 
-// class ProductDto {
-//   name: string;
-//   price: number;
-//   description: string;
-//   image: string;
-// }
 
 type QueryType = {
   page: number;
   limit: string;
+  search : string;
 };
 @Controller('products')
 export class ProductController {
@@ -36,7 +32,7 @@ export class ProductController {
   : Promise<Product[]> {
    
     return this.appService.getAllProducts(
-      query.page, query.limit
+      query.page, query.limit, query.search
     );
   }
 
@@ -50,9 +46,9 @@ export class ProductController {
 
 
   @Post('/detaills')
-  async addProduct(@Body('name') name :string , @Body('price') price:number ,@Body('description') description:string,@Body('image') image:string ): Promise<Product> {
+  async addProduct(@Body() productDto:ProductDto): Promise<Product> {
     return this.appService.addProduct(
-      name, price,description,image
+      productDto
     );
   }
 

@@ -2,6 +2,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Product } from './entity/product.entity';
 import { DataSource, Repository } from 'typeorm';
+import { ProductDto } from './dto/product_dto';
 
 
 @Injectable()
@@ -18,6 +19,7 @@ export class ProductService {
     
       page = 1,
       pageSize = '10',
+      search ,
     
   ): Promise<Product[]> {
     // return  this.productRepository.find(// );
@@ -41,6 +43,16 @@ export class ProductService {
     );
     
     
+    
+    if(search){
+      search = search.trim();
+
+      return this.dataSource.query(
+        `SELECT * FROM product WHERE name LIKE '%${search}%' LIMIT ? OFFSET ?`,
+        [Number.parseInt(pageSize), offset]
+  
+      );
+    }
     return this.dataSource.query(
       `SELECT * FROM product LIMIT ? OFFSET ?`,
       [Number.parseInt(pageSize), offset]
@@ -59,19 +71,19 @@ export class ProductService {
   }
 
   async addProduct(
-    name :string , price:number ,description:string,image:string 
+    productDto :ProductDto,
   ): Promise<Product> {
-    const product = new Product(
+    // const product = new Product(
       
-    );
-    product.name = name;
-    product.price = price;
-    product.description = description;
-    product.image = image;
+    // );
+    // product.name = productDto.;
+    // product.price = price;
+    // product.description = description;
+    // product.image = image;
     
     // return this.productRepository.save(product);
     const result : Product = await this.dataSource.query(
-      `INSERT INTO product (name, price, description, image) VALUES ('${name}', '${price}', '${description}', '${image}') RETURNING *`,
+      `INSERT INTO product (name, price, description, image) VALUES ('${productDto.name}', '${productDto.price}', '${productDto.description}', '${productDto.image}') RETURNING *`,
     );
     return result[0];
   }
