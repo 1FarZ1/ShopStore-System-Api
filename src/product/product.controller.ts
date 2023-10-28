@@ -45,7 +45,7 @@ export class ProductController {
   }
 
 
-  @Post('/detaills')
+  @Post('/add')
   async addProduct(@Body() productDto:ProductDto): Promise<Product> {
     return this.appService.addProduct(
       productDto

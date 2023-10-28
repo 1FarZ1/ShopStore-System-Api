@@ -17,4 +17,20 @@ export class ProductDto {
     @IsNotEmpty()
     @IsString()
     image: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    rating: number;
+
+    @IsNotEmpty()
+    @IsNumber()
+    stock: number;
+
+    @IsNotEmpty()
+    @IsString()
+    brand: string;
+
+    @IsNotEmpty()
+    @IsString()
+    category: string;
 }

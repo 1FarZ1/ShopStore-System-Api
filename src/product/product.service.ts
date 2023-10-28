@@ -83,7 +83,7 @@ export class ProductService {
     
     // return this.productRepository.save(product);
     const result : Product = await this.dataSource.query(
-      `INSERT INTO product (name, price, description, image) VALUES ('${productDto.name}', '${productDto.price}', '${productDto.description}', '${productDto.image}') RETURNING *`,
+      `INSERT INTO product (name,price,description,image,rating,stock,brand,category) VALUES ('${productDto.name}','${productDto.price}','${productDto.description}','${productDto.image}','${productDto.rating}','${productDto.stock}','${productDto.brand}','${productDto.category}')`,
     );
     return result[0];
   }

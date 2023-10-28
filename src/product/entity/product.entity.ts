@@ -22,4 +22,22 @@ export class Product {
   @Column({ nullable:true,  })
   image: string;
 
+  @Column({ nullable:false,  })
+  rating: number;
+
+  @Column({ nullable:false,  })
+  stock: number;
+
+  @Column({ length: 20 })
+  brand: string;
+
+  @Column({ length: 20 })
+  category: string;
+
+  
+
+
+
+
+
 }
