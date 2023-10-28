@@ -1,7 +1,7 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-// import { User } from './user.entity';
-
+import { LoginUserDto } from './dto/login_dto';
+import { CreateUserDto } from './dto/create_user_dto';
 type Result = {
   access_token: string;
   message: string;
@@ -11,14 +11,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
-  async login(
-    @Body('email') email: string,
-    @Body('password') password: string,
-  ): Promise<any> {
-    if (!email || !password) {
-      return new BadRequestException('email or password is missing');
-    }
-    const result: Result = await this.authService.login(email, password);
+  async login(@Body() loginUserDto: LoginUserDto): Promise<any> {
+    const result: Result = await this.authService.login(loginUserDto);
     return {
       statusCode: 201,
       message: 'login successful',
@@ -26,19 +20,8 @@ export class AuthController {
     };
   }
   @Post('/register')
-  async regitser(
-    @Body('email') email: string,
-    @Body('password') password: string,
-    @Body('name') name: string,
-  ): Promise<any> {
-    if (!email || !password || !name) {
-      return new BadRequestException('email or password or name is missing');
-    }
-    const result: Result = await this.authService.register(
-      email,
-      password,
-      name,
-    );
+  async regitser(@Body() createUserDto: CreateUserDto): Promise<any> {
+    const result: Result = await this.authService.register(createUserDto);
     return {
       statusCode: 201,
       message: 'register successful',

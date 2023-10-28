@@ -10,6 +10,8 @@ import { User } from './entity/user.entity';
 import * as bcrypt from 'bcrypt';
 //IMPORT JWT
 import { JwtService } from '@nestjs/jwt';
+import { LoginUserDto } from './dto/login_dto';
+import { CreateUserDto } from './dto/create_user_dto';
 
 class Utils {
   static comparePassword(password: string, hash: string): boolean {
@@ -30,10 +32,11 @@ export class AuthService {
     @Inject('DATA_SOURCE') private dataSource: DataSource,
     private jwtService: JwtService,
   ) {}
-  async login(email: string, password: string) {
+  async login(loginDto: LoginUserDto) {
     const userSql: User = await this.dataSource.query(
-      `SELECT * FROM users WHERE email = '${email}'`,
+      `SELECT * FROM users WHERE email = '${loginDto.email}' LIMIT 1 `,
     );
+    console.log(userSql);
 
     // const user = await this.userRepository.findOneBy({
     //   email: email,
@@ -41,7 +44,10 @@ export class AuthService {
     if (!userSql) {
       throw new NotFoundException("User doesn't exist!");
     }
-    const isMatch = Utils.comparePassword(password, userSql.password);
+    const isMatch = Utils.comparePassword(
+      loginDto.password,
+      userSql[0].password,
+    );
     if (!isMatch) {
       throw new BadRequestException('Wrong credentials !');
     }
@@ -54,9 +60,9 @@ export class AuthService {
       access_token: access_token,
     };
   }
-  async register(email: string, password: string, name: string) {
+  async register(createUserDto: CreateUserDto) {
     const isExistUser = await this.dataSource.query(
-      `SELECT * FROM users WHERE email = '${email}'`,
+      `SELECT * FROM users WHERE email = '${createUserDto.email}'`,
     );
     // const isExistUser = await this.userRepository.findOneBy({
     //   email: email,
@@ -64,7 +70,7 @@ export class AuthService {
     if (isExistUser) {
       throw new BadRequestException('User alredy exist !');
     }
-    password = Utils.hashPassword(password);
+    const hashedPassword = Utils.hashPassword(createUserDto.password);
 
     // const user = this.userRepository.create({
     //   email: email,
@@ -73,7 +79,7 @@ export class AuthService {
     //   image: '',
     // });
     const user = await this.dataSource.query(
-      `INSERT INTO users (email,name,password,image) VALUES ('${email}','${name}','${password}','')`,
+      `INSERT INTO users (email,name,password,image) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}','')`,
     );
     // await this.userRepository.save(user);
     const payload = { sub: user.id, username: user.name };
