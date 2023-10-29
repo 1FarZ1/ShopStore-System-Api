@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {
+  BadRequestException,
   // BadRequestException,
   Body,
   Controller,
@@ -23,7 +24,7 @@ type QueryType = {
 };
 @Controller('products')
 export class ProductController {
-  constructor(private readonly appService: ProductService) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Get()
   async getAllProducts(
@@ -31,7 +32,7 @@ export class ProductController {
   )
   : Promise<Product[]> {
    
-    return this.appService.getAllProducts(
+    return this.productService.getAllProducts(
       query.page, query.limit, query.search
     );
   }
@@ -40,29 +41,40 @@ export class ProductController {
   async getProductDetaills(
     @Param('productId') productId: string,
   ): Promise<Product> {
+
+    if (!productId) {
+      throw new BadRequestException('productId is missing in the request body');
+    }
     
-    return this.appService.getProductDetaills(productId);
+    return this.productService.getProductDetaills(productId);
   }
 
 
   @Post('/add')
   async addProduct(@Body() productDto:ProductDto): Promise<Product> {
-    return this.appService.addProduct(
+    return this.productService.addProduct(
       productDto
     );
   }
 
-  // @Post('/detaills/:productId')
-  // updateProductDetaills(@Param('productId') productId: string): Product {
-  //   if (!productId) {
-  //     throw new BadRequestException('productId is missing in the request body');
-  //   }
-  //   return this.appService.updateProductDetaills(productId);
-  // }
+  @Post('/update/:productId')
+  async updateProductDetaills(@Param('productId') productId: string,
+  @Body() productDto:ProductDto 
+  ): Promise<Product> {
+    if (!productId) {
+      throw new BadRequestException('productId is missing in the request body');
+    }
+     const result  =  await this.productService.updateProductDetaills(productId,productDto);
+      return result;
 
-  //delete
-  @Delete('/detaills/:productId')
+  }
+
+  @Delete('/delete/:productId')
   async deleteProduct(@Param('productId') productId: string): Promise<boolean> {
-    return this.appService.deleteProduct(productId);
+
+    if (!productId) {
+      throw new BadRequestException('productId is missing in the request body');
+    }
+    return this.productService.deleteProduct(productId);
   }
 }

@@ -70,6 +70,25 @@ export class ProductService {
     return product;
   }
 
+  async updateProductDetaills(
+    productId: string,
+    productDto :ProductDto,
+  ): Promise<Product> {
+    // const product = new Product(
+      
+    // );
+    // product.name = productDto.;
+    // product.price = price;
+    // product.description = description;
+    // product.image = image;
+    
+    // return this.productRepository.save(product);
+    const result : Product = await this.dataSource.query(
+      `UPDATE product SET name = '${productDto.name}',price = '${productDto.price}',description = '${productDto.description}',image = '${productDto.image}',rating = '${productDto.rating}',stock = '${productDto.stock}',brand = '${productDto.brand}',category = '${productDto.category}' WHERE id = '${productId}'`,
+    );
+    return result[0];
+    }
+
   async addProduct(
     productDto :ProductDto,
   ): Promise<Product> {
