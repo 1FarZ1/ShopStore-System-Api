@@ -8,7 +8,7 @@ import {
 import { Repository, DataSource } from 'typeorm';
 import { User } from './entity/user.entity';
 import * as bcrypt from 'bcrypt';
-//IMPORT JWT
+
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './dto/login.dto';
 import { CreateUserDto } from './dto/create_user.dto';
@@ -33,15 +33,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   async login(loginDto: LoginUserDto) {
-    const userSql: User = await this.dataSource.query(
+    const userSql: User[] = await this.dataSource.query(
       `SELECT * FROM users WHERE email = '${loginDto.email}' LIMIT 1 `,
     );
-    console.log(userSql);
-
-    // const user = await this.userRepository.findOneBy({
-    //   email: email,
-    // });
-    if (!userSql) {
+    if (userSql.length === 0) {
       throw new NotFoundException("User doesn't exist!");
     }
     const isMatch = Utils.comparePassword(
@@ -52,7 +47,7 @@ export class AuthService {
       throw new BadRequestException('Wrong credentials !');
     }
 
-    const payload = { sub: userSql.id, username: userSql.name };
+    const payload = { sub: userSql[0].id, username: userSql[0].name };
     const access_token = await this.jwtService.signAsync(payload);
 
     return {
@@ -67,7 +62,8 @@ export class AuthService {
     // const isExistUser = await this.userRepository.findOneBy({
     //   email: email,
     // });
-    if (isExistUser) {
+
+    if (isExistUser.length > 0) {
       throw new BadRequestException('User alredy exist !');
     }
     const hashedPassword = Utils.hashPassword(createUserDto.password);
@@ -78,9 +74,16 @@ export class AuthService {
     //   password: password,
     //   image: '',
     // });
-    const user = await this.dataSource.query(
+    await this.dataSource.query(
       `INSERT INTO users (email,name,password,image) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}','')`,
     );
+
+    const user = await this.dataSource
+      .query(
+        `SELECT * FROM users WHERE email = '${createUserDto.email}' LIMIT 1 `,
+      )
+      .then((res) => res[0]);
+
     // await this.userRepository.save(user);
     const payload = { sub: user.id, username: user.name };
     const access_token = await this.jwtService.signAsync(payload);

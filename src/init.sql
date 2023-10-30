@@ -13,5 +13,6 @@
  
 -- ALTER TABLE product  ALTER COLUMN image VARCHAR(6000)
 
- SELECT * FROM product 
+
+ SELECT * FROM users 
 -- DELETE FROM product;
