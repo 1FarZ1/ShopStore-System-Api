@@ -10,8 +10,8 @@ import { User } from './entity/user.entity';
 import * as bcrypt from 'bcrypt';
 //IMPORT JWT
 import { JwtService } from '@nestjs/jwt';
-import { LoginUserDto } from './dto/login_dto';
-import { CreateUserDto } from './dto/create_user_dto';
+import { LoginUserDto } from './dto/login.dto';
+import { CreateUserDto } from './dto/create_user.dto';
 
 class Utils {
   static comparePassword(password: string, hash: string): boolean {

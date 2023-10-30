@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './entity/product.entity';
 import { DataSource, Repository } from 'typeorm';
-import { ProductDto } from './dto/product_dto';
+import { ProductDto } from './dto/product.dto';
 
 
 @Injectable()
@@ -74,19 +74,17 @@ export class ProductService {
     productId: string,
     productDto :ProductDto,
   ): Promise<Product> {
-    // const product = new Product(
+    try {
       
-    // );
-    // product.name = productDto.;
-    // product.price = price;
-    // product.description = description;
-    // product.image = image;
-    
-    // return this.productRepository.save(product);
-    const result : Product = await this.dataSource.query(
-      `UPDATE product SET name = '${productDto.name}',price = '${productDto.price}',description = '${productDto.description}',image = '${productDto.image}',rating = '${productDto.rating}',stock = '${productDto.stock}',brand = '${productDto.brand}',category = '${productDto.category}' WHERE id = '${productId}'`,
-    );
-    return result[0];
+      const result : Product = await this.dataSource.query(
+        `UPDATE product SET name = '${productDto.name}',price = '${productDto.price}',description = '${productDto.description}',image = '${productDto.image}',rating = '${productDto.rating}',stock = '${productDto.stock}',brand = '${productDto.brand}',category = '${productDto.category}' WHERE id = '${productId}'`,
+      );
+      return result[0];
+    } catch (error) {
+        throw new NotFoundException(
+
+        )
+    }
     }
 
   async addProduct(

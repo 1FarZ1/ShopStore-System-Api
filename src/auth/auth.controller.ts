@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginUserDto } from './dto/login_dto';
-import { CreateUserDto } from './dto/create_user_dto';
+import { LoginUserDto } from './dto/login.dto';
+import { CreateUserDto } from './dto/create_user.dto';
 type Result = {
   access_token: string;
   message: string;
