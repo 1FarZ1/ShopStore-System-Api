@@ -26,6 +26,7 @@ CREATE TABLE product (
     PRIMARY KEY(id)
 )
 
+
 -- @block
 INSERT INTO product VALUES(
     3,

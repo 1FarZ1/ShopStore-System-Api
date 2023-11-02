@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {
   BadRequestException,
-  // BadRequestException,
   Body,
   Controller,
   Delete,
@@ -9,6 +8,7 @@ import {
   Param,
   Post,
   Query,
+  Request,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
@@ -29,8 +29,13 @@ export class ProductController {
   @Get()
   async getAllProducts(
     @Query() query: QueryType,
+    @Request() req: any,
   )
   : Promise<Product[]> {
+    console.log(req.headers);
+    console.log(req.body);
+    console.log(req.params);
+
    
     return this.productService.getAllProducts(
       query.page, query.limit, query.search

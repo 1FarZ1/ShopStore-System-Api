@@ -26,21 +26,8 @@ export class ProductService {
 
 
     const offset = (page - 1) * Number.parseInt(pageSize);
-    console.log(
-      '🚀 ~ file: product.service.ts ~ line 66 ~ ProductService ~ getAllProducts ~ offset',
-      offset,
+   
 
-    )
-
-    console.log(
-      '🚀 ~ file: product.service.ts ~ line 66 ~ ProductService ~ getAllProducts ~ pageSize',
-      pageSize,
-    );
-
-    console.log(
-      '🚀 ~ file: product.service.ts ~ line 66 ~ ProductService ~ getAllProducts ~ page',
-      page,
-    );
     
     
     
