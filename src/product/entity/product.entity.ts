@@ -34,10 +34,5 @@ export class Product {
   @Column({ length: 20 })
   category: string;
 
-  
-
-
-
-
 
 }

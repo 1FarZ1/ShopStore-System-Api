@@ -8,10 +8,11 @@ export const databaseProviders = [
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',
-        host: '127.0.0.1',
+        host: 'bmlrstyprbhu5tvpykrk-mysql.services.clever-cloud.com',
         port: 3306,
-        username: 'root',
-        database: 'nestWorld',
+        username: 'unjacdprzkbbkfjr',
+        database: 'bmlrstyprbhu5tvpykrk',
+        password:"J3VlqgVNGyvlXRswPKCg",
         entities: [User,Product],
         synchronize: false,
       });
