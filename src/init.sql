@@ -13,6 +13,13 @@
  
 -- ALTER TABLE product  ALTER COLUMN image VARCHAR(6000)
 
-
+-- @block
  SELECT * FROM users 
+
+
+-- @block
+SELECT * FROM product
+
+
+
 -- DELETE FROM product;
