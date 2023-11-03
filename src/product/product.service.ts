@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Product } from './entity/product.entity';
 import { DataSource } from 'typeorm';
 import { ProductDto } from './dto/product.dto';
@@ -63,6 +63,22 @@ export class ProductService {
     productDto :EditProductDto,
   ): Promise<Product> {
     try {
+
+      //check whethere there is new data or not
+      const product:Product = await this.dataSource.query(
+        `SELECT * FROM product WHERE id = '${productId}'`,
+      );
+      if(!product){
+        throw new BadRequestException(
+          'Product not found with this id ${productId}',
+        )
+
+      }
+      if(!productDto.name && !productDto.price && !productDto.description && !productDto.image && !productDto.rating && !productDto.stock && !productDto.brand && !productDto.category){  
+        throw new BadRequestException(
+          'No data to update',
+        )
+      }
 
       const result : Product = await this.dataSource.query(
         `UPDATE product SET name = '${productDto.name}',price = '${productDto.price}',description = '${productDto.description}',image = '${productDto.image}',rating = '${productDto.rating}',stock = '${productDto.stock}',brand = '${productDto.brand}',category = '${productDto.category}' WHERE id = '${productId}'`,
