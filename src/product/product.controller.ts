@@ -58,10 +58,13 @@ export class ProductController {
   @Patch('/update/:productId')
   async updateProductDetaills(@Param('productId',ParseIntPipe) productId: number,
   @Body() productDto:EditProductDto 
-  ): Promise<Product> {
+  ): Promise<any> {
      const result  =  await this.productService.updateProductDetaills(productId,productDto);
-      return result;
-
+    return {
+      id : productId,
+      message : "product updated successfully",
+      updatedProduct : result
+    }
   }
 
   @Delete('/delete/:productId')
