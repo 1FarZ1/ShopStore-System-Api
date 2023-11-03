@@ -35,7 +35,6 @@ export class ProductController {
     @Query() query: QueryType,
   )
   : Promise<Product[]> {
-
     return this.productService.getAllProducts(
       query.page, query.limit, query.search
     );
@@ -45,11 +44,6 @@ export class ProductController {
   async getProductDetaills(
     @Param('productId', ParseIntPipe) productId:number,
   ): Promise<Product> {
-
-    // if (!productId) {
-    //   throw new BadRequestException('productId is missing in the request body');
-    // }
-    
     return this.productService.getProductDetaills(productId);
   }
 
@@ -65,9 +59,6 @@ export class ProductController {
   async updateProductDetaills(@Param('productId',ParseIntPipe) productId: number,
   @Body() productDto:EditProductDto 
   ): Promise<Product> {
-    // if (!productId) {
-    //   throw new BadRequestException('productId is missing in the request body');
-    // }
      const result  =  await this.productService.updateProductDetaills(productId,productDto);
       return result;
 
