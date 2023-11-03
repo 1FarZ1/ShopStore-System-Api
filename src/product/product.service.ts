@@ -80,9 +80,41 @@ export class ProductService {
         )
       }
 
+      // const result : Product = await this.dataSource.query(
+      //   `UPDATE product SET name = '${productDto.name}',price = '${productDto.price}',description = '${productDto.description}',image = '${productDto.image}',rating = '${productDto.rating}',stock = '${productDto.stock}',brand = '${productDto.brand}',category = '${productDto.category}' WHERE id = '${productId}'`,
+      // );
+      // do a for loop in fields instead
+      let query = `UPDATE product SET `;
+      if(productDto.name){
+        query += `name = '${productDto.name}',`;
+      }
+      if(productDto.price){
+        query += `price = '${productDto.price}',`;
+      }
+      if(productDto.description){
+        query += `description = '${productDto.description}',`;
+      }
+      if(productDto.image){
+        query += `image = '${productDto.image}',`;
+      }
+      if(productDto.rating){
+        query += `rating = '${productDto.rating}',`;
+      }
+      if(productDto.stock){
+        query += `stock = '${productDto.stock}',`;
+      }
+      if(productDto.brand){
+        query += `brand = '${productDto.brand}',`;
+      }
+      if(productDto.category){
+        query += `category = '${productDto.category}',`;
+      }
+      query = query.substr(0, query.length - 1);
+      query += ` WHERE id = '${productId}'`;
       const result : Product = await this.dataSource.query(
-        `UPDATE product SET name = '${productDto.name}',price = '${productDto.price}',description = '${productDto.description}',image = '${productDto.image}',rating = '${productDto.rating}',stock = '${productDto.stock}',brand = '${productDto.brand}',category = '${productDto.category}' WHERE id = '${productId}'`,
+        query,
       );
+
       return result[0];
     } catch (error) {
         throw new InternalServerErrorException(error.message);
