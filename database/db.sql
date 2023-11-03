@@ -14,7 +14,7 @@ CREATE TABLE users (
 
 -- @block
 CREATE TABLE product (
-    id INT NOT NULL,
+    -- id INT  AUTO_INCREMENT,
     name VARCHAR(200) NOT NULL,
     description VARCHAR(200) NOT NULL,
     image VARCHAR(6000) NOT NULL,
@@ -43,8 +43,12 @@ INSERT INTO product VALUES(
 -- @block
 DROP TABLE users
 
+
+-- @block
+DROP TABLE product
+
 -- change the id column to have default value of AUTO_INCREMENT
-ALTER TABLE users ALTER COLUMN id INT ,
+-- ALTER TABLE users ALTER COLUMN id INT ,
 
 
 -- @block

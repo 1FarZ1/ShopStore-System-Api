@@ -77,14 +77,6 @@ export class ProductService {
   async addProduct(
     productDto :ProductDto,
   ): Promise<Product> {
-    // const product = new Product(
-      
-    // );
-    // product.name = productDto.;
-    // product.price = price;
-    // product.description = description;
-    // product.image = image;
-    
     // return this.productRepository.save(product);
     const result : Product = await this.dataSource.query(
       `INSERT INTO product (name,price,description,image,rating,stock,brand,category) VALUES ('${productDto.name}','${productDto.price}','${productDto.description}','${productDto.image}','${productDto.rating}','${productDto.stock}','${productDto.brand}','${productDto.category}')`,
