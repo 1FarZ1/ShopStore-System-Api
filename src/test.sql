@@ -4,7 +4,7 @@
 
 -- @block
 CREATE TABLE users (
-    id INT NOT NULL ,
+    -- id INT  AUTO_INCREMENT,
     name VARCHAR(200) NOT NULL,
     email VARCHAR(200) NOT NULL,
     password VARCHAR(200) NOT NULL,
@@ -42,6 +42,9 @@ INSERT INTO product VALUES(
 
 -- @block
 DROP TABLE users
+
+-- change the id column to have default value of AUTO_INCREMENT
+ALTER TABLE users ALTER COLUMN id INT ,
 
 
 -- @block

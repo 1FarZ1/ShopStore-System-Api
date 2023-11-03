@@ -5,9 +5,12 @@ import { Product } from 'src/product/entity/product.entity';
 export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
+    global: true,
     useFactory: async () => {
+      
       const dataSource = new DataSource({
         type: 'mysql',
+        //TODO: move this to .env file
         host: 'bmlrstyprbhu5tvpykrk-mysql.services.clever-cloud.com',
         port: 3306,
         username: 'unjacdprzkbbkfjr',

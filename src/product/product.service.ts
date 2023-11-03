@@ -1,15 +1,15 @@
 /* eslint-disable prettier/prettier */
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './entity/product.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { ProductDto } from './dto/product.dto';
 
 
 @Injectable()
 export class ProductService {
   constructor(
-    @Inject('PRODUCT_REPOSITORY')
-    private productRepository: Repository<Product>,
+    // @Inject('PRODUCT_REPOSITORY')
+    // private productRepository: Repository<Product>,
     @Inject('DATA_SOURCE') private dataSource: DataSource,
 
 

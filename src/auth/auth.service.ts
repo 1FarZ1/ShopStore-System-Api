@@ -26,8 +26,8 @@ class Utils {
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('USER_REPOSITORY')
-    private userRepository: Repository<User>,
+    // @Inject('USER_REPOSITORY')
+    // private userRepository: Repository<User>,
     // data source
     @Inject('DATA_SOURCE') private dataSource: DataSource,
     private jwtService: JwtService,
