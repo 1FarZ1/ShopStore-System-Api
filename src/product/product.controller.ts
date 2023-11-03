@@ -75,18 +75,18 @@ export class ProductController {
 
   @Delete('/delete/:productId')
   async deleteProduct(@Param('productId',ParseIntPipe) productId:number): Promise<any> {
-
-    // if (!productId) {
-    //   throw new BadRequestException('productId is missing in the request body');
-    // }
+    // add better messages and handling  in here 
     if( await this.productService.deleteProduct(productId)){
       return {
-        message : "product deleted"
+        id : productId,
+        message : "product deleted successfully"
+
 
       };
     }
     return {
-      message : "product not found"
+      id : productId, 
+      message : "product not found , please provide a valid product id"
     };
   }
 }
