@@ -6,10 +6,10 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
-  Request,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
@@ -31,14 +31,9 @@ export class ProductController {
   @Get()
   async getAllProducts(
     @Query() query: QueryType,
-    @Request() req: any,
   )
   : Promise<Product[]> {
-    console.log(req.headers);
-    console.log(req.body);
-    console.log(req.params);
 
-   
     return this.productService.getAllProducts(
       query.page, query.limit, query.search
     );
@@ -46,7 +41,7 @@ export class ProductController {
 
   @Get('/detaills/:productId')
   async getProductDetaills(
-    @Param('productId') productId: string,
+    @Param('productId', ParseIntPipe) productId:number,
   ): Promise<Product> {
 
     if (!productId) {
@@ -65,7 +60,7 @@ export class ProductController {
   }
 
   @Patch('/update/:productId')
-  async updateProductDetaills(@Param('productId') productId: string,
+  async updateProductDetaills(@Param('productId',ParseIntPipe) productId: number,
   @Body() productDto:EditProductDto 
   ): Promise<Product> {
     if (!productId) {
@@ -77,7 +72,7 @@ export class ProductController {
   }
 
   @Delete('/delete/:productId')
-  async deleteProduct(@Param('productId') productId: string): Promise<boolean> {
+  async deleteProduct(@Param('productId',ParseIntPipe) productId:number): Promise<boolean> {
 
     if (!productId) {
       throw new BadRequestException('productId is missing in the request body');

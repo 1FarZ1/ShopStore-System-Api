@@ -48,7 +48,7 @@ export class ProductService {
     );
   }
 
-  async  getProductDetaills(productId: string): Promise<Product>   {
+  async  getProductDetaills(productId: number): Promise<Product>   {
     // return this.productRepository.
     // findOneBy({id: parseInt(productId, 10)})
     // ;
@@ -59,7 +59,7 @@ export class ProductService {
   }
 
   async updateProductDetaills(
-    productId: string,
+    productId: number,
     productDto :EditProductDto,
   ): Promise<Product> {
     try {
@@ -87,7 +87,7 @@ export class ProductService {
     
   // }
 
-  async deleteProduct(productId: string): Promise<boolean> {
+  async deleteProduct(productId: number): Promise<boolean> {
     // const result = await this.productRepository.delete(productId);
     const result = await this.dataSource.query(
       `DELETE FROM product WHERE id = '${productId}'`,
