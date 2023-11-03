@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {
-  BadRequestException,
+  // BadRequestException,
   Body,
   Controller,
   Delete,
@@ -44,9 +44,9 @@ export class ProductController {
     @Param('productId', ParseIntPipe) productId:number,
   ): Promise<Product> {
 
-    if (!productId) {
-      throw new BadRequestException('productId is missing in the request body');
-    }
+    // if (!productId) {
+    //   throw new BadRequestException('productId is missing in the request body');
+    // }
     
     return this.productService.getProductDetaills(productId);
   }
@@ -63,9 +63,9 @@ export class ProductController {
   async updateProductDetaills(@Param('productId',ParseIntPipe) productId: number,
   @Body() productDto:EditProductDto 
   ): Promise<Product> {
-    if (!productId) {
-      throw new BadRequestException('productId is missing in the request body');
-    }
+    // if (!productId) {
+    //   throw new BadRequestException('productId is missing in the request body');
+    // }
      const result  =  await this.productService.updateProductDetaills(productId,productDto);
       return result;
 
@@ -74,9 +74,9 @@ export class ProductController {
   @Delete('/delete/:productId')
   async deleteProduct(@Param('productId',ParseIntPipe) productId:number): Promise<boolean> {
 
-    if (!productId) {
-      throw new BadRequestException('productId is missing in the request body');
-    }
+    // if (!productId) {
+    //   throw new BadRequestException('productId is missing in the request body');
+    // }
     return this.productService.deleteProduct(productId);
   }
 }
