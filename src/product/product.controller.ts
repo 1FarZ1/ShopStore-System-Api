@@ -6,6 +6,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Request,
@@ -13,6 +14,7 @@ import {
 import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
 import { ProductDto } from './dto/product.dto';
+import { EditProductDto } from './dto/edit-product.dto';
 
 
 
@@ -62,9 +64,9 @@ export class ProductController {
     );
   }
 
-  @Post('/update/:productId')
+  @Patch('/update/:productId')
   async updateProductDetaills(@Param('productId') productId: string,
-  @Body() productDto:ProductDto 
+  @Body() productDto:EditProductDto 
   ): Promise<Product> {
     if (!productId) {
       throw new BadRequestException('productId is missing in the request body');

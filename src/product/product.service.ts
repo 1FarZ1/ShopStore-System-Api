@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Product } from './entity/product.entity';
 import { DataSource } from 'typeorm';
 import { ProductDto } from './dto/product.dto';
+import { EditProductDto } from './dto/edit-product.dto';
 
 
 @Injectable()
@@ -59,18 +60,16 @@ export class ProductService {
 
   async updateProductDetaills(
     productId: string,
-    productDto :ProductDto,
+    productDto :EditProductDto,
   ): Promise<Product> {
     try {
-      
+
       const result : Product = await this.dataSource.query(
         `UPDATE product SET name = '${productDto.name}',price = '${productDto.price}',description = '${productDto.description}',image = '${productDto.image}',rating = '${productDto.rating}',stock = '${productDto.stock}',brand = '${productDto.brand}',category = '${productDto.category}' WHERE id = '${productId}'`,
       );
       return result[0];
     } catch (error) {
-        throw new NotFoundException(
-
-        )
+        throw new InternalServerErrorException(error.message);
     }
     }
 
