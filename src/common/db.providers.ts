@@ -2,10 +2,11 @@
 import { DataSource } from 'typeorm';
 import { User } from '../auth/entity/user.entity';
 import { Product } from 'src/product/entity/product.entity';
+
+
 export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
-    global: true,
     useFactory: async () => {
       
       const dataSource = new DataSource({
