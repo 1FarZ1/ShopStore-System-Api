@@ -24,6 +24,8 @@ type QueryType = {
   limit: string;
   search : string;
 };
+
+
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -72,11 +74,19 @@ export class ProductController {
   }
 
   @Delete('/delete/:productId')
-  async deleteProduct(@Param('productId',ParseIntPipe) productId:number): Promise<boolean> {
+  async deleteProduct(@Param('productId',ParseIntPipe) productId:number): Promise<any> {
 
     // if (!productId) {
     //   throw new BadRequestException('productId is missing in the request body');
     // }
-    return this.productService.deleteProduct(productId);
+    if( await this.productService.deleteProduct(productId)){
+      return {
+        message : "product deleted"
+
+      };
+    }
+    return {
+      message : "product not found"
+    };
   }
 }
