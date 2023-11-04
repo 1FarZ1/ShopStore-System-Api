@@ -19,31 +19,30 @@ export class ProductService {
   async getAllProducts(
 
     page = 1,
-    pageSize = '10',
+    pageSize = 10,
     search,
 
   ): Promise<Product[]> {
-    // return  this.productRepository.find(// );
+    const offset = (page - 1) * pageSize;
 
-
-    const offset = (page - 1) * Number.parseInt(pageSize);
-
-
-
-
+    console.log(typeof pageSize);
+    console.log(typeof offset);
+    console.log(typeof page);
 
     if (search) {
       search = search.trim();
+     
+
 
       return this.dataSource.query(
         `SELECT * FROM product WHERE name LIKE '%${search}%' LIMIT ? OFFSET ?`,
-        [Number.parseInt(pageSize), offset]
+        [pageSize, offset]
 
       );
     }
     return this.dataSource.query(
       `SELECT * FROM product LIMIT ? OFFSET ?`,
-      [Number.parseInt(pageSize), offset]
+      [pageSize, offset]
 
     );
   }
@@ -105,19 +104,13 @@ export class ProductService {
   async addProduct(
     productDto: ProductDto,
   ): Promise<Product> {
-    // return this.productRepository.save(product);
     const result: Product = await this.dataSource.query(
       `INSERT INTO product (name,price,description,image,rating,stock,brand,category) VALUES ('${productDto.name}','${productDto.price}','${productDto.description}','${productDto.image}','${productDto.rating}','${productDto.stock}','${productDto.brand}','${productDto.category}')`,
     );
     return result[0];
   }
-  // async updateProductDetaills(productId: string): Promise<Product> {
-  //   return this.productRepository.findOne(productId);
-
-  // }
 
   async deleteProduct(productId: number): Promise<boolean> {
-    // const result = await this.productRepository.delete(productId);
     const result  = await this.dataSource.query(
       `DELETE FROM product WHERE id = '${productId}'`,
     );

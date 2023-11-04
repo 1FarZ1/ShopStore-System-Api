@@ -19,11 +19,11 @@ import { EditProductDto } from './dto/edit-product.dto';
 
 
 
-type QueryType = {
-  page: number;
-  limit: string;
-  search : string;
-};
+// type QueryType = {
+//   page: number;
+//   limit: number;
+//   search : string;
+// };
 
 
 @Controller('products')
@@ -32,11 +32,28 @@ export class ProductController {
 
   @Get()
   async getAllProducts(
-    @Query() query: QueryType,
+    @Query(
+      // turn them into numbers 
+      'page',
+      ParseIntPipe,
+    )
+    page: number,
+    @Query(
+      'limit',
+      ParseIntPipe,
+    )
+    limit: number,
+    @Query(
+      'search',
+      )
+      search : string,
   )
   : Promise<Product[]> {
+    
+    
+
     return this.productService.getAllProducts(
-      query.page, query.limit, query.search
+      page, limit, search
     );
   }
 
