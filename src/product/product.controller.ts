@@ -33,14 +33,12 @@ export class ProductController {
   @Get()
   async getAllProducts(
     @Query(
-      // turn them into numbers 
       'page',
-      ParseIntPipe,
+  
     )
     page: number,
     @Query(
       'limit',
-      ParseIntPipe,
     )
     limit: number,
     @Query(

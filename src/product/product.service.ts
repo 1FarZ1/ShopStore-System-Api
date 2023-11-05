@@ -25,9 +25,9 @@ export class ProductService {
   ): Promise<Product[]> {
     const offset = (page - 1) * pageSize;
 
-    console.log(typeof pageSize);
-    console.log(typeof offset);
-    console.log(typeof page);
+    // console.log(typeof pageSize);
+    // console.log(typeof offset);
+    // console.log(typeof page);
 
     if (search) {
       search = search.trim();
