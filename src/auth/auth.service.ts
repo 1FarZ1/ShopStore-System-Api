@@ -26,14 +26,14 @@ class Utils {
 @Injectable()
 export class AuthService {
   constructor(
-    // @Inject('USER_REPOSITORY')
+    // @InjectRepository(User)
     // private userRepository: Repository<User>,
     // data source
-    @Inject('DATA_SOURCE') private dataSource: DataSource,
+    @Inject('DATA_SOURCE') private sqlDb: DataSource,
     private jwtService: JwtService,
   ) {}
   async login(loginDto: LoginUserDto) {
-    const userSql: User[] = await this.dataSource.query(
+    const userSql: User[] = await this.sqlDb.query(
       `SELECT * FROM users WHERE email = '${loginDto.email}' LIMIT 1 `,
     );
     if (userSql.length === 0) {
@@ -56,7 +56,7 @@ export class AuthService {
     };
   }
   async register(createUserDto: CreateUserDto) {
-    const isExistUser = await this.dataSource.query(
+    const isExistUser = await this.sqlDb.query(
       `SELECT * FROM users WHERE email = '${createUserDto.email}'`,
     );
     // const isExistUser = await this.userRepository.findOneBy({
@@ -74,11 +74,11 @@ export class AuthService {
     //   password: password,
     //   image: '',
     // });
-    await this.dataSource.query(
+    await this.sqlDb.query(
       `INSERT INTO users (email,name,password,image) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}','')`,
     );
 
-    const user = await this.dataSource
+    const user = await this.sqlDb
       .query(
         `SELECT * FROM users WHERE email = '${createUserDto.email}' LIMIT 1 `,
       )

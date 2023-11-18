@@ -13,6 +13,7 @@ export class AuthController {
   @Post('/login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<any> {
     const result: Result = await this.authService.login(loginUserDto);
+    console.log('hello im here');
     return {
       statusCode: 201,
       message: 'login successful',

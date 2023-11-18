@@ -2,14 +2,14 @@
 -- ALTER Table product
 -- ADD category VARCHAR(200) NOT NULL
 
--- INSERT INTO product VALUES(
+INSERT INTO product VALUES(
     
---     'Apple',
---     23,
--- "A Good Product",
---     "http",
---     3.5
--- )
+    'Apple',
+    23,
+"A Good Product",
+    "http",
+    3.5
+)
  
 -- ALTER TABLE product  ALTER COLUMN image VARCHAR(6000)
 
