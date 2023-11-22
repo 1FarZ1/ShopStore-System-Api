@@ -10,6 +10,5 @@ async function bootstrap() {
   app.enableCors();
   app.useLogger(['error', 'warn']);
   await app.listen(process.env.APP_PORT || 3000);
-  console.log(`Application is on : https://bdd.onrender.com/api `);
 }
 bootstrap();
