@@ -280,28 +280,28 @@
 --     )
 
 
---  1
--- -- @block 
--- SELECT  DISTINCT genre  FROM books
+ -- 1
+-- @block 
+SELECT  DISTINCT genre  FROM books
 
 
--- --  2 
--- -- @block
--- SELECT * from books WHERE title ="Harry Potter"
+--  2 
+-- @block
+SELECT * from books WHERE title ="Harry Potter"
 
 
--- -- 3 
--- -- @block
--- SELECT * from author  ORDER BY age  DESC Limit 3
+-- 3 
+-- @block
+SELECT * from author  ORDER BY age  DESC Limit 3 
 
 
--- -- 4 
--- -- @block
--- SELECT name, email FROM members WHERE memberID IN (SELECT memberID FROM loans WHERE borrowDate > '2021-01-01');
+-- 4 
+-- @block
+SELECT name, email FROM members WHERE memberID IN (SELECT memberID FROM loans WHERE borrowDate > '2021-01-01');
 
--- -- 5 
--- -- @block
--- SELECT title FROM books WHERE id IN (SELECT bookID FROM loans WHERE memberID = (SELECT memberID FROM members WHERE name = 'Jane Doe'));
+-- 5 
+-- @block
+SELECT title FROM books WHERE id IN (SELECT bookID FROM loans WHERE memberID = (SELECT memberID FROM members WHERE name = 'Jane Doe'));
 
 
 
@@ -333,12 +333,10 @@ SELECT * FROM author WHERE Cuntry = 'USA' OR Cuntry = 'UK'
 
 -- 25 
 -- @block
--- retreive the book titles published in both 2020  and 2021
 SELECT * FROM books WHERE YEAR(publicationDate) = 2020 OR YEAR(publicationDate) = 2021
 
 -- 26
 -- @block
---  CATegorize members into states based on whether their adress is in california , new york or other
 SELECT *, CASE WHEN adress LIKE '%CA%' THEN 'California' WHEN adress LIKE '%NY%' THEN 'New York' ELSE 'Other' END  as state FROM members
 
 
