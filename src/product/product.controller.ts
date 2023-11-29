@@ -15,6 +15,8 @@ import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
+import { log } from 'console';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 
 
@@ -31,28 +33,26 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
+  @ApiResponse({ status: 200, description: 'Successful' })
+  @ApiQuery({ name: 'page', required: false, type: Number, description: 'Description for param1' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Description for param2' })
+  @ApiQuery({ name: 'search', required: false, type: String, description: 'Description for param2' })
   async getAllProducts(
-    @Query(
-      'page',
-  
+    @Query("page",ParseIntPipe) page?: number ,
+    @Query("limit",ParseIntPipe) limit?: number ,
+    @Query("search") search?: string ,
     )
-    page: number,
-    @Query(
-      'limit',
-    )
-    limit: number,
-    @Query(
-      'search',
-      )
-      search : string,
-  )
+
   : Promise<Product[]> {
     
-    
+    log("page",page); 
+    log("limit",limit);
+    log("search",search);
 
     return this.productService.getAllProducts(
-      page, limit, search
+      page,limit,search
     );
+    
   }
 
   @Get('/detaills/:productId')

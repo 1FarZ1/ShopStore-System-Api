@@ -18,16 +18,13 @@ export class ProductService {
   ) { }
   async getAllProducts(
 
-    page = 1,
-    pageSize = 10,
-    search,
+    page:number = 1,
+    pageSize:number = 10,
+    search:string ,
 
   ): Promise<Product[]> {
     const offset = (page - 1) * pageSize;
 
-    // console.log(typeof pageSize);
-    // console.log(typeof offset);
-    // console.log(typeof page);
 
     if (search) {
       search = search.trim();

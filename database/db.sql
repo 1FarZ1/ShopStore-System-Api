@@ -27,6 +27,8 @@ CREATE TABLE product (
 )
 
 
+
+
 -- @block
 INSERT INTO product VALUES(
     3,

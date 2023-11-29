@@ -1,4 +1,4 @@
--- -- -- Active: 1698284420780@@127.0.0.1@3306@book
+-- Active: 1701266548715@@127.0.0.1@3306@bd_bibliotheque
 
 -- -- CREATE TABLE Books ( ID INT NOT NULL, title VARCHAR(50), publisher VARCHAR(50), publicationDate DATE, genre VARCHAR(50), PRIMARY KEY (ID) );
 
@@ -389,3 +389,221 @@ SELECT * FROM author WHERE age > (SELECT AVG(age) FROM author)
 -- @block
 -- get books published by publisher located in new york
 SELECT * FROM books WHERE publisher IN (SELECT publisherID FROM publishers WHERE headquartersLocation = 'New York, NY')
+
+
+
+
+
+-- TP5
+--@BLOCK
+CREATE TABLE PERSONNES (
+numPers varchar(3) not null PRIMARY KEY,
+nomPers varchar(50) not null,
+prePers varchar(50) not null,
+age int(2) not null,
+numSS int(5) not null,
+ville varchar(30) ) ;
+
+-- 2
+--@BLOCK
+CREATE TABLE FILIERES (
+codeFiliere varchar(3) not null PRIMARY KEY,
+nomFiliere varchar(30) not null) ;
+
+-- 3
+-- @BLOCK
+CREATE TABLE OUVRAGES (
+codeOuv varchar(4) not null PRIMARY KEY,
+titreOuv varchar(100) not null,
+annee int(4) not null,
+prix double not null,
+filiere varchar(3) not null,
+FOREIGN KEY(filiere) REFERENCES filieres(codeFiliere) ) ;
+
+-- 4
+-- @BLOCK
+
+CREATE TABLE ECRIRE (
+auteur varchar(3) not null,
+ouvrage varchar(4) not null,
+position int(1),
+PRIMARY KEY(auteur, ouvrage),
+FOREIGN KEY(auteur) REFERENCES personnes(numPers),
+FOREIGN KEY(ouvrage) REFERENCES ouvrages(codeOuv) ) ;
+
+-- 5
+-- @BLOCK
+CREATE TABLE EMPRUNTS(
+lecteur varchar(3) not null,
+ouvrage VARCHAR (4) not null,
+dateEmprunt date not null,
+dateRetour date,
+PRIMARY KEY(lecteur, ouvrage, dateEmprunt),
+FOREIGN KEY(lecteur) REFERENCES personnes(numPers),
+FOREIGN KEY(ouvrage) REFERENCES ouvrages(codeOuv) ) ; 
+
+
+-- 6
+-- @BLOCK
+insert into personnes values
+('N01', 'Gardarin', 'Georges', 55, 11992, 'Paris'),
+('N02', 'Laurent', 'Audibert', 45, 54861, 'Lille'),
+('N03', 'Mata Toledo', 'Ramon', 47, 31993, 'Lyon'),
+('N04', 'Cushman', 'Pauline', 39, 45667, 'Toulouse'),
+('N05', 'Benaichou', 'Said', 31, 21991, 'Alger'),
+('N06', 'Boucher', 'Samuel', 42, 78455, 'Berne'),
+('N07', 'Meyer', 'Sylvie', 25, 65993, 'Grenoble'),
+('N08', 'Reeb', 'Catherine', 28, 21334, 'Paris'),
+('N09', 'Bosdeveix', 'Robin', 43, 23667, 'Nantes'),
+('N10', 'Cibois Honnorat', 'Isabelle', 37, 58898, 'Genève'),
+('N11', 'Butler', 'Paul', 31, 23778, 'Berlin'),
+('N12', 'Mitchell', 'Adam', 46, 84563, 'Hambourg'),
+('N13', 'Healy', 'Jeremiah', 55, 34566, 'Paris'),
+('N14', 'Beauthier', 'Jean Pol', 36, 34668, 'Nantes'),
+('N15', 'Bourillon', 'Antoine', 56, 65998, 'Berlin'),
+('N16', 'Benoist', 'Grégoire', 44, 23435, 'Rome'),
+('N17', 'Delacourt', 'Christophe', 26, 11456, 'Milan'),
+('N18', 'Salmi', 'Riad', 21, 41981, 'Alger'),
+('N19', 'Kadi', 'Ahlam', 20, 49854, 'Alger'),
+('N20', 'Faid', 'Bilal', 19, 31980, 'Béjaia'),
+('N21', 'Meiller', 'Raphael', 55, 84576, 'Hambourg');
+
+
+
+
+
+-- 7
+-- @BLOCK
+insert into filieres values
+('Inf', 'Informatique'),
+('Bio', 'Biologies'),
+('Med', 'Médecine');
+
+
+-- 8
+-- @BLOCK
+insert into ouvrages values
+('BD01', 'Bases de Données', 2003, 29, 'Inf'),
+('BD02', 'Bases de données - de la modélisation au SQL', 2009, 55, 'Inf'),
+('BD03', 'Introduction aux bases de données relationnelles', 2002, 30, 'Inf'),
+('BD04', "Bases de données et systèmes d'information", 2017, 35, 'Inf'),
+('BD05', 'Programmation SQL', 2003, 22, 'Inf'),
+('BI01', 'Maladies des abeilles', 2016, 55, 'Bio'),
+('BI02', 'Botanique : Biologie et physiologie végétales', 2019, 50, 'Bio'),
+('ME01', 'Echographie en médecine générale', 2018, 63, 'Med'),
+('ME02', 'Radiologie anatomique', 2015, 67, 'Med'),
+('ME03', 'Pédiatrie', 2017, 46, 'Med');
+
+
+
+-- 9
+-- @BLOCK
+insert into ecrire values
+('N01', 'BD01', 1),
+('N02', 'BD02', 1),
+('N03', 'BD03', 1),
+('N04', 'BD03', 2),
+('N05', 'BD04', 1),
+('N03', 'BD05', 1),
+('N04', 'BD05', 2),
+('N06', 'BI01', 1),
+('N07', 'BI02', 1),
+('N08', 'BI02', 2),
+('N09', 'BI02', 3),
+('N10', 'ME01', 1),
+('N11', 'ME02', 1),
+('N12', 'ME02', 2),
+('N13', 'ME02', 3),
+('N14', 'ME02', 4),
+('N15', 'ME03', 1),
+('N16', 'ME03', 2),
+('N17', 'ME03', 3);
+
+
+-- 10
+-- @BLOCK
+insert into emprunts values
+('N18', 'BD01', '2010-01-25', '2010-02-15'),
+('N18', 'BD02', '2012-04-22', '2012-05-15'),
+('N17', 'ME02', '2016-02-08', '2016-04-09'),
+('N15', 'ME01', '2019-01-16', '2019-01-21'),
+('N19', 'BD03', '2011-05-15', '2011-05-30'),
+('N19', 'BD05', '2015-10-11', '2006-10-21'),
+('N20', 'BI01', '2018-05-23', '2018-05-29'),
+('N20', 'ME01', '2019-11-21', '2019-12-02'),
+('N20', 'BI01', '2019-02-23', '2019-04-03');
+
+
+-- 11
+-- @BLOCK
+-- Les villes dans lesquelles habite au moins une personne. Ici, on doit afficher chaque ville une seule fois.
+SELECT DISTINCT ville FROM personnes;
+
+-- 12
+-- @BLOCK
+-- Les titres des ouvrages écrits par «Cushman Pauline».
+SELECT titreOuv FROM ouvrages, ecrire, personnes WHERE ouvrages.codeOuv = ecrire.ouvrage AND ecrire.auteur = personnes.numPers AND personnes.nomPers = 'Cushman' AND personnes.prePers = 'Pauline'; 
+
+-- 13
+-- @BLOCK
+-- Les numéros et les noms des auteurs habitant la ville d’« Alger ».
+    SELECT numPers, nomPers FROM personnes WHERE ville = 'Alger';
+
+--14
+-- @BLOCK
+-- Les auteurs (numéros, noms et âges) qui ne sont pas également lecteurs.
+SELECT numPers, nomPers, age FROM personnes WHERE numPers NOT IN (SELECT lecteur FROM emprunts);
+
+-- 15
+-- @BLOCK
+-- Les ouvrages (codes, titres et prix) dont le titre comprend le mot « SQL ».
+SELECT codeOuv, titreOuv, prix FROM ouvrages WHERE titreOuv LIKE '%SQL%';
+
+-- 10. Les numéros des personnes dont l’âge est le plus faible parmi les personnes habitant la ville de Béjaia.
+--@BLOCK
+SELECT numPers FROM personnes WHERE age = (SELECT MIN(age) FROM personnes WHERE ville = 'Béjaia');
+
+
+-- 11. Les numéros des personnes dont l’âge est inférieur à celui d’une personne habitant la ville de Béjaia.
+--@BLOCK
+SELECT numPers FROM personnes WHERE age < (SELECT age FROM personnes WHERE ville = 'Béjaia');
+
+
+-- 12. Le nombre de personnes qui sont des lecteurs.
+--@BLOCK
+SELECT COUNT(lecteur) FROM emprunts;
+
+-- 13. Le nombre d’ouvrage empruntés en moins une fois.
+--@block
+SELECT COUNT(ouvrage) FROM emprunts;
+-- 14. Le prix total de tous les ouvrages
+--@block
+SELECT SUM(prix) FROM ouvrages;
+-- 15. Le prix moyen d’un ouvrage de la filière « Inf »
+--@block
+SELECT AVG(prix) FROM ouvrages WHERE filiere = 'Inf';
+
+-- 16. L’ouvrage ayant le prix le plus élevé
+--@block
+SELECT titreOuv FROM ouvrages WHERE prix = (SELECT MAX(prix) FROM ouvrages);
+
+-- 17. L’ouvrage ayant le prix le plus bas parmi les ouvrages de la filière « Bio »
+--@block
+SELECT titreOuv FROM ouvrages WHERE prix = (SELECT MIN(prix) FROM ouvrages WHERE filiere = 'Bio');
+
+-- 18. Le prix moyen des ouvrages par spécialité
+--@block
+SELECT AVG(prix) FROM ouvrages GROUP BY filiere;
+
+-- 19. Le nombre de personnes qui habitent dans chaque ville
+--@block
+SELECT ville, COUNT(ville) FROM personnes GROUP BY ville;
+
+-- 20. Le nombre d’ouvrages par spécialité
+--@block
+SELECT filiere, COUNT(filiere) FROM ouvrages GROUP BY filiere;
+
+
+-- 21. L’auteur (ou les auteurs) ayant écrit le plus d’ouvrages , like the most created , you should return no4 and no3
+--@block
+SELECT auteur, COUNT(auteur) FROM ecrire GROUP BY auteur ORDER BY COUNT(auteur);
