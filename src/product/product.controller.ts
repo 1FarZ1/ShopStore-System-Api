@@ -15,7 +15,6 @@ import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
-import { log } from 'console';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 
@@ -44,13 +43,12 @@ export class ProductController {
     )
 
   : Promise<Product[]> {
-    
-    log("page",page); 
-    log("limit",limit);
-    log("search",search);
+  
 
     return this.productService.getAllProducts(
-      page,limit,search
+      page ? page : 1,
+      limit ? limit : 10,
+      search ,
     );
     
   }

@@ -18,8 +18,8 @@ export class ProductService {
   ) { }
   async getAllProducts(
 
-    page:number = 1,
-    pageSize:number = 10,
+    page:number,
+    pageSize:number,
     search:string ,
 
   ): Promise<Product[]> {
@@ -34,7 +34,6 @@ export class ProductService {
       return this.dataSource.query(
         `SELECT * FROM product WHERE name LIKE '%${search}%' LIMIT ? OFFSET ?`,
         [pageSize, offset]
-
       );
     }
     return this.dataSource.query(
