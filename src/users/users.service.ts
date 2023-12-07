@@ -22,7 +22,7 @@ export class UsersService {
       `SELECT * FROM users WHERE id = ?`,
       [id],
     );
-    delete user[0].password;
+
     return user;
   }
 

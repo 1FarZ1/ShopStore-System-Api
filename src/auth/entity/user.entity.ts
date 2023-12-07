@@ -29,9 +29,15 @@ export class User {
     @Column({ nullable:true,  })
     image: string;
 
-
     // role
-    @Column({ type: 'enum', enum: Role, default: Role.USER })
+    @Column({ type: 'enum', enum: Role, default: Role.USER,
+    nullable: false,
+  transformer: {
+    to: (entityValue: Role) => entityValue,
+    from: (databaseValue: string) => Role[databaseValue],
+  },
+
+   })
     role: Role;
 
 
