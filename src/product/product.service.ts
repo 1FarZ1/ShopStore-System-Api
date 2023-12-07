@@ -23,10 +23,22 @@ export class ProductService {
 
   ): Promise<Product[]> {
 
+   try {
     let { page, limit, search } = query;
-    page = page || 1;
+    page = page || 0;
+    
     limit = limit || 10;
-    const offset = (page - 1) * limit;
+    const offset = (page) * limit;
+
+    // check if page and limit are valid
+    if (page < 0 || limit < 1) {
+      throw new BadRequestException('Invalid page or limit');
+    }
+
+    // for exemple if limit is 10 and page is 5 then offset will be 40 AND IF WE have only 10 products?
+    // we need to check if offset is greater than the number of products
+    
+    // log the offset and limit
 
 
     if (search) {
@@ -39,11 +51,15 @@ export class ProductService {
         [limit, offset]
       );
     }
-    return this.dataSource.query(
+   return this.dataSource.query(
       `SELECT * FROM product LIMIT ? OFFSET ?`,
       [limit, offset]
-
+      
     );
+
+   } catch (error) {
+      throw new InternalServerErrorException(error.message);
+   }
   }
 
   async getProductDetaills(productId: number): Promise<Product> {

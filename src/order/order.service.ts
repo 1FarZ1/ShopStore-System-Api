@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DataSource } from 'typeorm/data-source';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class OrderService {

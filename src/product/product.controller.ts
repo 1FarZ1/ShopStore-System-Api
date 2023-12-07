@@ -44,7 +44,8 @@ export class ProductController {
     )
 
   : Promise<Product[]> {
-  
+    console.log("🚀 ~ file: product.controller.ts:45 ~ ProductController ~ query:", query)
+
     return this.productService.getAllProducts(
 query
     );
