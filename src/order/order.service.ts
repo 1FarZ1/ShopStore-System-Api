@@ -6,15 +6,15 @@ export class OrderService {
   constructor(@Inject('DATA_SOURCE') private dataSource: DataSource) {}
 
   async getAllOrdersForUser(userId: number): Promise<any> {
-    return this.dataSource.query(
-      `SELECT * FROM orders WHERE user_id = '${userId}'`,
-    );
+    return this.dataSource.query(`SELECT * FROM orders WHERE user_id = ?`, [
+      userId,
+    ]);
   }
 
   async getOrderDetails(orderId: number): Promise<any> {
-    return this.dataSource.query(
-      `SELECT * FROM orders WHERE order_id = '${orderId}'`,
-    );
+    return this.dataSource.query(`SELECT * FROM orders WHERE order_id = ?`, [
+      orderId,
+    ]);
   }
 
   async getAllOrders(): Promise<any> {
@@ -27,7 +27,8 @@ export class OrderService {
     quantity: number,
   ): Promise<any> {
     return this.dataSource.query(
-      `INSERT INTO orders (user_id,product_id,quantity) VALUES ('${userId}','${productId}','${quantity}')`,
+      `INSERT INTO orders (user_id, product_id, quantity) VALUES (?, ?, ?)`,
+      [userId, productId, quantity],
     );
   }
 

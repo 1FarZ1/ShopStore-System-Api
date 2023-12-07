@@ -1,16 +1,17 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {  IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class QueryDto {
-  @IsNotEmpty()
   @IsNumber()
-  page: number;
+  @IsOptional()
+  page?: number;
 
-  @IsNotEmpty()
+  
   @IsNumber()
-  limit: number;
+  @IsOptional()
+  limit?: number;
 
-  @IsNotEmpty()
   @IsString()
-  search: string;
+  @IsOptional()
+  search?: string;
 }

@@ -16,7 +16,8 @@ import { Product } from './entity/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { log } from 'console';
+// import { log } from 'console';
+import { QueryDto } from './dto/queryProducts.dto';
 
 
 
@@ -38,18 +39,14 @@ export class ProductController {
   @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Description for param2' })
   @ApiQuery({ name: 'search', required: false, type: String, description: 'Description for param2' })
   async getAllProducts(
-    @Query("page",ParseIntPipe) page?: number ,
-    @Query("limit",ParseIntPipe) limit?: number ,
-    @Query("search") search?: string ,
+    @Query() query:QueryDto,
+    
     )
 
   : Promise<Product[]> {
   
-    log("Page,limit,search",page,limit,search)
     return this.productService.getAllProducts(
-      page ? page : 1,
-      limit ? limit : 10,
-      search ,
+query
     );
     
   }

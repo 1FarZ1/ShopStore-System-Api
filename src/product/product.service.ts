@@ -4,6 +4,7 @@ import { Product } from './entity/product.entity';
 import { DataSource } from 'typeorm';
 import { ProductDto } from './dto/product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
+import { QueryDto } from './dto/queryProducts.dto';
 
 
 @Injectable()
@@ -18,12 +19,14 @@ export class ProductService {
   ) { }
   async getAllProducts(
 
-    page:number,
-    pageSize:number,
-    search:string ,
+  query :QueryDto
 
   ): Promise<Product[]> {
-    const offset = (page - 1) * pageSize;
+
+    let { page, limit, search } = query;
+    page = page || 1;
+    limit = limit || 10;
+    const offset = (page - 1) * limit;
 
 
     if (search) {
@@ -33,12 +36,12 @@ export class ProductService {
 
       return this.dataSource.query(
         `SELECT * FROM product WHERE name LIKE '%${search}%' LIMIT ? OFFSET ?`,
-        [pageSize, offset]
+        [limit, offset]
       );
     }
     return this.dataSource.query(
       `SELECT * FROM product LIMIT ? OFFSET ?`,
-      [pageSize, offset]
+      [limit, offset]
 
     );
   }
