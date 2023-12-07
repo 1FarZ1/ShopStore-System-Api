@@ -10,12 +10,23 @@ import {
 import { OrderService } from './order.service';
 import { OrderDto } from './dto/order.dto';
 
-@Controller('order')
+@Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   //get all orders for a specific user
-  @Get('/orders/:userId')
+  @Get('/')
+  async getAllOrders(): Promise<any> {
+    const orders = await this.orderService.getAllOrders();
+    if (orders) {
+      return {
+        message: 'orders found',
+        orders: orders,
+      };
+    }
+  }
+
+  @Get('/:userId')
   async getAllOrdersForUser(
     @Param('userId', ParseIntPipe) userId: number,
   ): Promise<any> {
@@ -45,16 +56,6 @@ export class OrderController {
   }
 
   //get all orders
-  @Get('/orders')
-  async getAllOrders(): Promise<any> {
-    const orders = await this.orderService.getAllOrders();
-    if (orders) {
-      return {
-        message: 'orders found',
-        orders: orders,
-      };
-    }
-  }
 
   @Delete('/order/:orderId')
   async deleteOrder(
@@ -69,7 +70,6 @@ export class OrderController {
     }
   }
 
-  //create order
   @Post('/order')
   async createOrder(@Body() createOrderDto: OrderDto): Promise<any> {
     const result = await this.orderService.createOrder(createOrderDto);
@@ -80,15 +80,15 @@ export class OrderController {
   }
 
   //update order
-//   @Put('/order/:orderId')
-//   async updateOrder(
-//     @Param('orderId', ParseIntPipe) orderId: number,
-//     @Body() orderDto: OrderDto,
-//   ): Promise<any> {
-//     const result = await this.orderService.updateOrder(orderId, orderDto);
-//     return {
-//       message: 'order updated',
-//       result: result,
-//     };
-//   }
+  //   @Put('/order/:orderId')
+  //   async updateOrder(
+  //     @Param('orderId', ParseIntPipe) orderId: number,
+  //     @Body() orderDto: OrderDto,
+  //   ): Promise<any> {
+  //     const result = await this.orderService.updateOrder(orderId, orderDto);
+  //     return {
+  //       message: 'order updated',
+  //       result: result,
+  //     };
+  //   }
 }

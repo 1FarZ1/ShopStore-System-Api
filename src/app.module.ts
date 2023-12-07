@@ -12,8 +12,8 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    ProductModule,
     AuthModule,
+    ProductModule,
     OrderModule,
   ],
   controllers: [AppController],
