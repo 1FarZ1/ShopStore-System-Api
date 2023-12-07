@@ -21,18 +21,18 @@ export class ReportsService {
   }
 
   findAll() {
-    return `This action returns all reports`;
+    return this.dataSource.query(`SELECT * FROM reports`);
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} report`;
+    return this.dataSource.query(`SELECT * FROM reports WHERE id = ?`, [id]);
   }
 
-  update(id: number, updateReportDto: UpdateReportDto) {
-    return `This action updates a #${id} report`;
-  }
+  // update(id: number, updateReportDto: UpdateReportDto) {
+  //   return `This action updates a #${id} report`;
+  // }
 
   remove(id: number) {
-    return `This action removes a #${id} report`;
+    return this.dataSource.query(`DELETE FROM reports WHERE id = ?`, [id]);
   }
 }
