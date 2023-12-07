@@ -68,6 +68,9 @@ query
 
 
   @Post('/add')
+  @ApiQuery({ name: 'name', required: true, type: String, description: 'Description for param1' })
+  @ApiQuery({ name: 'price', required: true, type: Number, description: 'Description for param2' })
+  @ApiQuery({ name: 'quantity', required: true, type: Number, description: 'Description for param2' })
   async addProduct(@Body() productDto:ProductDto): Promise<Product> {
     return this.productService.addProduct(
       productDto

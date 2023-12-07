@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { OrderDto } from './dto/order.dto';
 
 @Injectable()
 export class OrderService {
@@ -21,25 +22,21 @@ export class OrderService {
     return this.dataSource.query(`SELECT * FROM orders`);
   }
 
-  async createOrder(
-    userId: number,
-    productId: number,
-    quantity: number,
-  ): Promise<any> {
-    return this.dataSource.query(
-      `INSERT INTO orders (user_id, product_id, quantity) VALUES (?, ?, ?)`,
-      [userId, productId, quantity],
-    );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async createOrder(order: OrderDto): Promise<any> {
+    // return this.dataSource.query(
+    //   `INSERT INTO orders (user_id, products) VALUES (?, ?, ?)`,
+    //   [order.userId, order.products, order.quantity],
+    // );
+    return null;
   }
 
-  async updateOrder(
-    orderId: number,
-    quantity: number,
-    status: string,
-  ): Promise<any> {
-    return this.dataSource.query(
-      `UPDATE orders SET quantity = '${quantity}', status = '${status}' WHERE order_id = '${orderId}'`,
-    );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async updateOrder(orderId: number, order: OrderDto): Promise<any> {
+    // return this.dataSource.query(
+    //   `UPDATE orders SET quantity = '${quantity}', status = '${status}' WHERE order_id = '${orderId}'`,
+    // );
+    return null;
   }
 
   async deleteOrder(orderId: number): Promise<any> {
