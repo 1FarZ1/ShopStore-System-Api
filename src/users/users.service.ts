@@ -12,7 +12,8 @@ export class UsersService {
   }
 
   findAll() {
-    return this.dataSource.query(`SELECT * FROM users`);
+    // select everything from the user table except the password
+    return this.dataSource.query(`SELECT id,name,email,image FROM users`);
   }
 
   findOne(id: number) {
