@@ -1,11 +1,18 @@
 /* eslint-disable prettier/prettier */
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+
+
+export enum Role {
+  ADMIN = 'admin',
+  USER  = 'user',
+}
 @Entity(
   {
     name: 'users',
   },
 )
+
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,6 +28,11 @@ export class User {
 
     @Column({ nullable:true,  })
     image: string;
+
+
+    // role
+    @Column({ type: 'enum', enum: Role, default: Role.USER })
+    role: Role;
 
 
   

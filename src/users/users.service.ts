@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DataSource } from 'typeorm';
+import { User } from '../auth/entity/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -16,8 +17,13 @@ export class UsersService {
     return this.dataSource.query(`SELECT id,name,email,image FROM users`);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user: User = await this.dataSource.query(
+      `SELECT * FROM users WHERE id = ?`,
+      [id],
+    );
+    delete user[0].password;
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
