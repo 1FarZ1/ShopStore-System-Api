@@ -23,7 +23,7 @@ export class UsersService {
       [id],
     );
 
-    return user;
+    return user[0];
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

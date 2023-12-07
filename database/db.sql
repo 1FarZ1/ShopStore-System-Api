@@ -61,3 +61,8 @@ INSERT INTO users VALUES(
     "$2b$10$ln59OfxNEr4sS6ZdHh0K1OHDreCaSbbedEhmoQ17vU2JFtnic7XQ.",
     "https://avatars.githubusercontent.com/u/91225280?s=400&u=f1f63351b35655aebe08acb336d16eed43e63982&v=4"
 )
+
+
+-- add a column named role into users table , that contain either adimn or user
+-- @BLOCK
+ALTER TABLE users ADD role VARCHAR(200) NOT NULL;
