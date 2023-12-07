@@ -57,8 +57,15 @@ export class ProductController {
   @Get('/detaills/:productId')
   async getProductDetaills(
     @Param('productId', ParseIntPipe) productId:number,
-  ): Promise<Product> {
-    return this.productService.getProductDetaills(productId);
+  ): Promise<any> {
+   const product = await this.productService.getProductDetaills(productId);
+    if(product){
+      return {
+        id : productId,
+        message : "product found",
+        product : product,
+      }
+    }
   }
 
 

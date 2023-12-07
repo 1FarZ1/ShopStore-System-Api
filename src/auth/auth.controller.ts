@@ -15,7 +15,6 @@ export class AuthController {
     const result: Result = await this.authService.login(loginUserDto);
     console.log('hello im here');
     return {
-      statusCode: 201,
       message: 'login successful',
       access_token: result.access_token,
     };
@@ -24,7 +23,6 @@ export class AuthController {
   async regitser(@Body() createUserDto: CreateUserDto): Promise<any> {
     const result: Result = await this.authService.register(createUserDto);
     return {
-      statusCode: 201,
       message: 'register successful',
       access_token: result.access_token,
     };

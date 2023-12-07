@@ -17,9 +17,6 @@ export class Order {
   @Column({ default: 0 })
   quantity: number;
 
-  @Column({ default: false })
-  isDeleted: boolean;
-
   @CreateDateColumn()
   createdAt: Date;
 
