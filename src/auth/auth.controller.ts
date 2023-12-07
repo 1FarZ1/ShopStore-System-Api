@@ -20,6 +20,16 @@ export class AuthController {
       access_token: result.access_token,
     };
   }
+  @HttpCode(HttpStatus.OK)
+  @Post('admin/register')
+  async loginAdmin(@Body() createAdminDto: CreateUserDto): Promise<any> {
+    const result: Result = await this.authService.registerAdmin(createAdminDto);
+
+    return {
+      message: 'register successful',
+      access_token: result.access_token,
+    };
+  }
 
   @HttpCode(HttpStatus.CREATED)
   @Post('/register')

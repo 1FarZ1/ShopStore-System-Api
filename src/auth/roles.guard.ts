@@ -18,7 +18,9 @@ export class RolesGuard implements CanActivate {
 
     log("🚀 ~ file: roles.guard.ts:80 ~ RolesGuard ~ roles", roles)
     log("🚀 ~ file: roles.guard.ts:81 ~ RolesGuard ~ request", request.user)
-    const user:User = await this.usersService.findOne(request.user.userId);
+    const user:User = await this.usersService.findOne(request.user.user_id);
+    log("🚀 ~ file: roles.guard.ts:81 ~ RolesGuard ~ request", user)
+
     const hasRole = () => roles.includes(user?.role);
     return user && user.role && hasRole();
   }

@@ -47,7 +47,7 @@ export class AuthService {
       throw new BadRequestException('Wrong credentials !');
     }
 
-    const payload = { sub: userSql[0].id, username: userSql[0].name };
+    const payload = { user_id: userSql[0].id, username: userSql[0].name };
     const access_token = await this.jwtService.signAsync(payload);
 
     return {
@@ -75,7 +75,7 @@ export class AuthService {
     //   image: '',
     // });
     await this.sqlDb.query(
-      `INSERT INTO users (email,name,password,image) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}','')`,
+      `INSERT INTO users (email,name,password,image,role) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}','', 'user')`,
     );
 
     const user = await this.sqlDb
@@ -85,7 +85,34 @@ export class AuthService {
       .then((res) => res[0]);
 
     // await this.userRepository.save(user);
-    const payload = { sub: user.id, username: user.name };
+    const payload = { user_id: user.id, username: user.name };
+    const access_token = await this.jwtService.signAsync(payload);
+    return {
+      message: 'user created',
+      access_token: access_token,
+    };
+  }
+
+  async registerAdmin(createUserDto: CreateUserDto) {
+    const isExistUser = await this.sqlDb.query(
+      `SELECT * FROM users WHERE email = '${createUserDto.email}'`,
+    );
+    if (isExistUser.length > 0) {
+      throw new BadRequestException('User alredy exist !');
+    }
+    const hashedPassword = Utils.hashPassword(createUserDto.password);
+
+    await this.sqlDb.query(
+      `INSERT INTO users (email,name,password,image,role) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}','', 'admin')`,
+    );
+
+    const user = await this.sqlDb
+      .query(
+        `SELECT * FROM users WHERE email = '${createUserDto.email}' LIMIT 1 `,
+      )
+      .then((res) => res[0]);
+
+    const payload = { user_id: user.id, username: user.name };
     const access_token = await this.jwtService.signAsync(payload);
     return {
       message: 'user created',
