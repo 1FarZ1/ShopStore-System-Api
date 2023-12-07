@@ -15,10 +15,9 @@ async function bootstrap() {
   app.enableCors();
   app.useLogger(['error', 'warn']);
   const config = new DocumentBuilder()
-    .setTitle('Nest js App example')
-    .setDescription('The Sample API description')
+    .setTitle('Bdd API Project')
+    .setDescription('The Bdd API description')
     .setVersion('1.0')
-    .addTag('sample')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/docs', app, document);
