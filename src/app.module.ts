@@ -6,6 +6,7 @@ import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
 import { ConfigModule } from '@nestjs/config';
 import { ReportsModule } from './reports/reports.module';
+import { UsersModule } from './users/users.module';
 
 @Global()
 @Module({
@@ -17,6 +18,7 @@ import { ReportsModule } from './reports/reports.module';
     ProductModule,
     OrderModule,
     ReportsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [...databaseProviders],
