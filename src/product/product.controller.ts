@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
 import {
-  // BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -16,25 +17,14 @@ import { Product } from './entity/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
-// import { log } from 'console';
 import { QueryDto } from './dto/queryProducts.dto';
-
-
-
-
-// type QueryType = {
-//   page: number;
-//   limit: number;
-//   search : string;
-// };
-
 
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  @ApiResponse({ status: 200, description: 'Successful' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Successful' })
   @ApiQuery({ name: 'page', required: false, type: Number, description: 'Description for param1' })
   @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Description for param2' })
   @ApiQuery({ name: 'search', required: false, type: String, description: 'Description for param2' })
@@ -52,6 +42,7 @@ query
     
   }
 
+  @HttpCode(HttpStatus.OK)
   @Get('/detaills/:productId')
   async getProductDetaills(
     @Param('productId', ParseIntPipe) productId:number,
@@ -68,6 +59,7 @@ query
 
 
   @Post('/add')
+  @HttpCode(HttpStatus.CREATED)
   @ApiQuery({ name: 'name', required: true, type: String, description: 'Description for param1' })
   @ApiQuery({ name: 'price', required: true, type: Number, description: 'Description for param2' })
   @ApiQuery({ name: 'quantity', required: true, type: Number, description: 'Description for param2' })
@@ -78,6 +70,7 @@ query
   }
 
   @Patch('/update/:productId')
+  @HttpCode(HttpStatus.OK)
   async updateProductDetaills(@Param('productId',ParseIntPipe) productId: number,
   @Body() productDto:EditProductDto 
   ): Promise<any> {
@@ -90,8 +83,8 @@ query
   }
 
   @Delete('/delete/:productId')
+  @HttpCode(HttpStatus.OK)
   async deleteProduct(@Param('productId',ParseIntPipe) productId:number): Promise<any> {
-    // add better messages and handling  in here 
     if( await this.productService.deleteProduct(productId)){
       return {
         id : productId,
