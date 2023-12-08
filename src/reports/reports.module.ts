@@ -9,7 +9,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     MailerModule.forRoot({
       transport: {
         host: 'smtp.gmail.com',
-        // port: 587,
+        port: 465,
         // tls: {
         //   ciphers: 'SSLv3',
         // },

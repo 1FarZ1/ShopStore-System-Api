@@ -66,3 +66,16 @@ INSERT INTO users VALUES(
 -- add a column named role into users table , that contain either adimn or user
 -- @BLOCK
 ALTER TABLE users ADD role VARCHAR(200) NOT NULL;
+
+
+
+CREATE TABLE reports (
+    id SERIAL PRIMARY KEY,
+    comment TEXT,
+    user_id INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) -- Assuming users table exists with an 'id' column
+);
+-- select the users name in reports table
+-- @BLOCK
+SELECT users.name FROM reports INNER JOIN users ON reports.user_id = users.id;

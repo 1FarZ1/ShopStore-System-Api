@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
@@ -23,15 +24,18 @@ export class ReportsController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  create() {
-    //    return this.reportsService.create(createReportDto);
-    return this.reportsService.create();
+  create(@Body() createReportDto: CreateReportDto, @Req() req: any) {
+    return this.reportsService.create(
+      createReportDto,
+
+      req.user.user_id,
+    );
   }
 
   @Get()
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
   findAll() {
     return this.reportsService.findAll();
@@ -51,12 +55,12 @@ export class ReportsController {
   //   return this.reportsService.update(+id, updateReportDto);
   // }
 
-  @Delete(':id')
-  @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
-  remove(@Param('id') id: string) {
-    return this.reportsService.remove(+id);
-  }
+  // @Delete(':id')
+  // @ApiBearerAuth()
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
+  // remove(@Param('id') id: string) {
+  //   return this.reportsService.remove(+id);
+  // }
 }

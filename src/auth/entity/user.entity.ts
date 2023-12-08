@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Report } from '../../reports/entities/report.entity'; 
 
 
 
@@ -39,6 +40,10 @@ export class User {
 
    })
     role: Role;
+
+    @OneToMany(() => Report, (report) => report.user)
+    reports: Report[];
+    
 
 
   

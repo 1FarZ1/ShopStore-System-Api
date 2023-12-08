@@ -16,32 +16,34 @@ export class ReportsService {
     private mailerService: MailerService,
   ) {}
 
-  async create() {
-    // return this.dataSource.query(
-    //   `INSERT INTO reports (user_id, product_id, comment, rate) VALUES (?, ?, ?, ?)`,
-    //   [
-    //     createReportDto.userId,
-    //     createReportDto.productId,
-    //     createReportDto.comment,
-    //     createReportDto.rate,
-    //   ],
-    // );
-    try {
-      const result = await this.mailerService.sendMail({
-        from: '<fbekkouche149@gmail.com>', // List of receivers email address
-        to: 'farzbussiness@gmail.com', // Senders email address
-        subject: 'Testing Nest MailerModule ✔', // Subject line
-        text: 'welcome', // plaintext body
-        html: '<b>welcome</b>', // HTML body content
-      });
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException({
-        message: 'An error occured while sending email',
-        error,
-      });
-    }
+  async create(createReportDto: CreateReportDto, userId: number) {
+    const result = await this.dataSource.query(
+      `INSERT INTO reports (user_id, comment) VALUES (?,?)`,
+      [userId, createReportDto.comment],
+    );
+    console.log(
+      '🚀 ~ file: reports.service.ts ~ line 151 ~ ReportsService ~ create ~ result',
+      result,
+    );
+
+    return null;
+
+    // try {
+    //   const result = await this.mailerService.sendMail({
+    //     from: '<fbekkouche149@gmail.com>', // List of receivers email address
+    //     to: 'farzbussiness@gmail.com', // Senders email address
+    //     subject: 'Testing Nest MailerModule ✔', // Subject line
+    //     text: 'welcome', // plaintext body
+    //     html: '<b>welcome</b>', // HTML body content
+    //   });
+    //   console.log(result);
+    // } catch (error) {
+    //   console.log(error);
+    //   throw new InternalServerErrorException({
+    //     message: 'An error occured while sending email',
+    //     error,
+    //   });
+    // }
   }
 
   findAll() {
