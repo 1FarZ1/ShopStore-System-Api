@@ -31,18 +31,7 @@ export class AuthController {
       access_token: result.access_token,
     };
   }
-  @HttpCode(HttpStatus.OK)
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'register successful',
-    schema: {
-      example: {
-        email: 'fares1@test.com',
-        password: '1234',
-        name: 'fares',
-      },
-    },
-  })
+  @HttpCode(HttpStatus.CREATED)
   @Post('admin/register')
   async loginAdmin(@Body() createAdminDto: CreateUserDto): Promise<any> {
     const result: Result = await this.authService.registerAdmin(createAdminDto);
@@ -54,6 +43,17 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'register successful',
+    schema: {
+      example: {
+        email: 'fares1@test.com',
+        password: '1234',
+        name: 'fares',
+      },
+    },
+  })
   @Post('/register')
   async regitser(@Body() createUserDto: CreateUserDto): Promise<any> {
     const result: Result = await this.authService.register(createUserDto);
