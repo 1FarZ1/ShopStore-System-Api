@@ -23,8 +23,9 @@ export class ReportsController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  create(@Body() createReportDto: CreateReportDto) {
-    return this.reportsService.create(createReportDto);
+  create() {
+    //    return this.reportsService.create(createReportDto);
+    return this.reportsService.create();
   }
 
   @Get()

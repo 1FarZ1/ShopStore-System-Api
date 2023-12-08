@@ -7,6 +7,7 @@ import { Product } from 'src/product/entity/product.entity';
 export const databaseProviders = [
   { 
     provide: 'DATA_SOURCE',
+    inject: [],
     useFactory: async () => {
       
       const dataSource = new DataSource({

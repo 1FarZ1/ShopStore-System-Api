@@ -59,10 +59,6 @@ export class AuthService {
     const isExistUser = await this.sqlDb.query(
       `SELECT * FROM users WHERE email = '${createUserDto.email}'`,
     );
-    // const isExistUser = await this.userRepository.findOneBy({
-    //   email: email,
-    // });
-
     if (isExistUser.length > 0) {
       throw new BadRequestException('User alredy exist !');
     }
@@ -79,7 +75,6 @@ export class AuthService {
       )
       .then((res) => res[0]);
 
-    // await this.userRepository.save(user);
     const payload = { user_id: user.id, username: user.name };
     const access_token = await this.jwtService.signAsync(payload);
     return {
