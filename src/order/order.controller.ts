@@ -6,16 +6,25 @@ import {
   ParseIntPipe,
   Post,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { OrderDto } from './dto/order.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RolesGuard } from 'src/common/roles.guard';
+import { Role } from 'src/auth/entity/user.entity';
+import { Roles } from 'src/common/roles.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  //get all orders for a specific user
   @Get('/')
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
   async getAllOrders(): Promise<any> {
     const orders = await this.orderService.getAllOrders();
     if (orders) {
@@ -27,6 +36,8 @@ export class OrderController {
   }
 
   @Get('/:userId')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   async getAllOrdersForUser(
     @Param('userId', ParseIntPipe) userId: number,
   ): Promise<any> {
@@ -41,6 +52,9 @@ export class OrderController {
   }
 
   //get order details
+  @Get('/order/:orderId')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   async getOrderDetails(
     @Param('orderId', ParseIntPipe) orderId: number,
   ): Promise<any> {
@@ -55,6 +69,10 @@ export class OrderController {
   }
 
   @Delete('/order/:orderId')
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
   async deleteOrder(
     @Param('orderId', ParseIntPipe) orderId: number,
   ): Promise<any> {
@@ -68,6 +86,8 @@ export class OrderController {
   }
 
   @Post('/order')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   async createOrder(@Body() createOrderDto: OrderDto): Promise<any> {
     const result = await this.orderService.createOrder(createOrderDto);
     return {
