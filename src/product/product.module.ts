@@ -4,9 +4,7 @@ import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 import { UsersService } from 'src/users/users.service';
 @Module({
-  imports: [
-      
-  ],
+  imports: [],
   controllers: [ProductController],
   providers: [ProductService,
     UsersService],

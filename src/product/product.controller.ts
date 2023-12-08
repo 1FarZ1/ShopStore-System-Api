@@ -64,21 +64,28 @@ query
         product : product,
       }
     }
+    else{
+      return {
+        id : productId,
+        message : "product not found , please provide a valid product id"
+      }
+    }
   }
 
 
   @Post('/add')
   @HttpCode(HttpStatus.CREATED)
-  @UseGuards(AuthGuard)
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
   @ApiResponse({ status: HttpStatus.CREATED, description: 'add product' })
-  async addProduct(@Body() productDto:ProductDto): Promise<Product> {
+  async addProduct(@Body() productDto:ProductDto): Promise<any> {
     return this.productService.addProduct(
       productDto
-    );
-  }
+    );}
+    
+  
 
   @Patch('/update/:productId')
   @HttpCode(HttpStatus.OK)

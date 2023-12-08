@@ -63,10 +63,14 @@ export class ProductService {
   }
 
   async getProductDetaills(productId: number): Promise<Product> {
+   try {
     const products: Product[] = await this.dataSource.query(
       `SELECT * FROM product WHERE id = '${productId}'`,
     );
     return products[0];
+   } catch (error) {
+      throw new InternalServerErrorException(error.message);
+   }
   }
 
   async updateProductDetaills(
@@ -118,11 +122,33 @@ export class ProductService {
 
   async addProduct(
     productDto: ProductDto,
-  ): Promise<Product> {
-    const result: Product = await this.dataSource.query(
+  ): Promise<any> {
+
+    // check if the product already exists
+    const result = await this.dataSource.query(
+      `SELECT * FROM product WHERE name = '${productDto.name}'`,
+    );
+    
+
+    if (result[0]) {
+      throw new BadRequestException(
+        'Product already exists',
+      );
+    }
+
+    const insertResult = await this.dataSource.query(
       `INSERT INTO product (name,price,description,image,rating,stock,brand,category) VALUES ('${productDto.name}','${productDto.price}','${productDto.description}','${productDto.image}','${productDto.rating}','${productDto.stock}','${productDto.brand}','${productDto.category}')`,
     );
-    return result[0];
+   
+
+    // get detaills about product
+    const product = await this.getProductDetaills(insertResult.insertId);
+    
+ 
+    return {
+      "message": "product added successfully",
+      "product": product
+    };
   }
 
   async deleteProduct(productId: number): Promise<boolean> {
