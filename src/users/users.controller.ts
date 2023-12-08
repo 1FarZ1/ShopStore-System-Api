@@ -14,6 +14,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/common/roles.guard';
 import { Role } from 'src/auth/entity/user.entity';
 import { Roles } from '../common/roles.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -25,6 +26,7 @@ export class UsersController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
@@ -33,6 +35,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
@@ -41,6 +44,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)

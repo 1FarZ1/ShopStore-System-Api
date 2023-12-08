@@ -82,6 +82,11 @@ query
 
   @Patch('/update/:productId')
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+
   async updateProductDetaills(@Param('productId',ParseIntPipe) productId: number,
   @Body() productDto:EditProductDto 
   ): Promise<any> {
@@ -94,6 +99,10 @@ query
   }
 
   @Delete('/delete/:productId')
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   async deleteProduct(@Param('productId',ParseIntPipe) productId:number): Promise<any> {
     if( await this.productService.deleteProduct(productId)){
