@@ -19,7 +19,7 @@ import { ProductDto } from './dto/product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { QueryDto } from './dto/queryProducts.dto';
-import { RolesGuard } from 'src/auth/roles.guard';
+import { RolesGuard } from 'src/common/roles.guard';
 import { Roles } from 'src/common/roles.decorator';
 import { Role } from 'src/auth/entity/user.entity';
 import { AuthGuard } from 'src/auth/auth.guard';

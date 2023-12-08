@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { UpdateDateColumn } from "typeorm";
+import { ManyToMany, UpdateDateColumn } from "typeorm";
 import { Column } from "typeorm/decorator/columns/Column";
 import { CreateDateColumn } from "typeorm/decorator/columns/CreateDateColumn";
 import { PrimaryGeneratedColumn } from "typeorm/decorator/columns/PrimaryGeneratedColumn";
@@ -14,8 +14,12 @@ export class Order {
   @Column()
   price: number;
 
-  @Column({ default: 0 })
-  quantity: number;
+
+
+  @ManyToMany(() => Order, order => order.id)
+  orders: Order[];
+
+  
 
   @CreateDateColumn()
   createdAt: Date;

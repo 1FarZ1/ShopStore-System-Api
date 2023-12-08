@@ -2,6 +2,7 @@ import { Body, Controller, HttpStatus, Post, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login.dto';
 import { CreateUserDto } from './dto/create_user.dto';
+import { ApiResponse } from '@nestjs/swagger';
 type Result = {
   access_token: string;
   message: string;
@@ -11,6 +12,16 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'login successful',
+    schema: {
+      example: {
+        email: 'fares1@test.com',
+        password: '1234',
+      },
+    },
+  })
   @Post('/login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<any> {
     const result: Result = await this.authService.login(loginUserDto);

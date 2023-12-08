@@ -41,7 +41,6 @@ export class OrderController {
   }
 
   //get order details
-  @Get('/order/:orderId')
   async getOrderDetails(
     @Param('orderId', ParseIntPipe) orderId: number,
   ): Promise<any> {
@@ -54,8 +53,6 @@ export class OrderController {
       };
     }
   }
-
-  //get all orders
 
   @Delete('/order/:orderId')
   async deleteOrder(
