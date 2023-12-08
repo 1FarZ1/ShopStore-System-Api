@@ -68,14 +68,9 @@ export class AuthService {
     }
     const hashedPassword = Utils.hashPassword(createUserDto.password);
 
-    // const user = this.userRepository.create({
-    //   email: email,
-    //   name: name,
-    //   password: password,
-    //   image: '',
-    // });
+    const image = createUserDto.image || '';
     await this.sqlDb.query(
-      `INSERT INTO users (email,name,password,image,role) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}','', 'user')`,
+      `INSERT INTO users (email,name,password,image,role) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}',${image}, 'user')`,
     );
 
     const user = await this.sqlDb

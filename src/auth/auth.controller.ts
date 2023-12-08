@@ -32,6 +32,17 @@ export class AuthController {
     };
   }
   @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'register successful',
+    schema: {
+      example: {
+        email: 'fares1@test.com',
+        password: '1234',
+        name: 'fares',
+      },
+    },
+  })
   @Post('admin/register')
   async loginAdmin(@Body() createAdminDto: CreateUserDto): Promise<any> {
     const result: Result = await this.authService.registerAdmin(createAdminDto);

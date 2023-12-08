@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -36,4 +36,18 @@ export class CreateUserDto {
     }
   )
   name: string;
+
+  @IsString()
+  @IsOptional()
+  
+  @ApiProperty(
+    {
+      description: 'user image',
+      type: String,
+      default: 'image'
+    }
+  )
+  image?: string;
+
+
 }
