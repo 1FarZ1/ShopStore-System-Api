@@ -42,9 +42,12 @@ export class CreateUserDto {
   
   @ApiProperty(
     {
+      required: false,
       description: 'user image',
       type: String,
+      // optional
       default: 'image'
+
     }
   )
   image?: string;
