@@ -17,7 +17,7 @@ import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { QueryDto } from './dto/queryProducts.dto';
 import { RolesGuard } from 'src/common/roles.guard';
 import { Roles } from 'src/common/roles.decorator';
@@ -29,13 +29,14 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
-  @ApiResponse({ status: HttpStatus.OK, description: 'Successful' })
-  @ApiQuery({ name: 'page', required: false, type: Number, description: 'Description for param1' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Description for param2' })
-  @ApiQuery({ name: 'search', required: false, type: String, description: 'Description for param2' })
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
+  
+  @ApiResponse({ status: HttpStatus.OK, description: 'get all products' })
+  @ApiQuery({ name: 'page', required: false, type: Number, description: 'page number' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'products per page' })
+  @ApiQuery({ name: 'search', required: false, type: String, description: 'search query' })
   async getAllProducts(
     @Query() query:QueryDto,
     
@@ -68,9 +69,11 @@ query
 
   @Post('/add')
   @HttpCode(HttpStatus.CREATED)
-  @ApiQuery({ name: 'name', required: true, type: String, description: 'Description for param1' })
-  @ApiQuery({ name: 'price', required: true, type: Number, description: 'Description for param2' })
-  @ApiQuery({ name: 'quantity', required: true, type: Number, description: 'Description for param2' })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'add product' })
   async addProduct(@Body() productDto:ProductDto): Promise<Product> {
     return this.productService.addProduct(
       productDto
