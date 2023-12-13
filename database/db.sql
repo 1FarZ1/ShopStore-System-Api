@@ -76,6 +76,6 @@ CREATE TABLE reports (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) -- Assuming users table exists with an 'id' column
 );
--- select the users name in reports table
+-- select the reports for the user 1
 -- @BLOCK
-SELECT users.name FROM reports INNER JOIN users ON reports.user_id = users.id;
+SELECT comment FROM reports WHERE user_id = 1;

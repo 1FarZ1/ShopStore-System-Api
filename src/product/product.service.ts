@@ -21,7 +21,7 @@ export class ProductService {
 
   query :QueryDto
 
-  ): Promise<Product[]> {
+  ): Promise<any> {
 
    try {
     let { page, limit, search } = query;
@@ -34,29 +34,37 @@ export class ProductService {
     if (page < 0 || limit < 1) {
       throw new BadRequestException('Invalid page or limit');
     }
+    const count = await this.dataSource.query(
+      `SELECT COUNT(*) as count FROM product`,
+    );
 
-    // for exemple if limit is 10 and page is 5 then offset will be 40 AND IF WE have only 10 products?
-    // we need to check if offset is greater than the number of products
-    
-    // log the offset and limit
+    let sqlQuery;
 
 
     if (search) {
       search = search.trim();
      
 
-
-      return this.dataSource.query(
-        `SELECT * FROM product WHERE name LIKE '%${search}%' LIMIT ? OFFSET ?`,
-        [limit, offset]
-      );
-    }
-   return this.dataSource.query(
-      `SELECT * FROM product LIMIT ? OFFSET ?`,
-      [limit, offset]
+      sqlQuery= 
+        `SELECT * FROM product WHERE name LIKE '%${search}%' LIMIT ? OFFSET ?`;
       
-    );
 
+    }
+    else {
+      sqlQuery = `SELECT * FROM product LIMIT ? OFFSET ?`;
+    }
+
+    const products: Product[] = await this.dataSource.query(
+      sqlQuery,
+      [limit, offset],
+    );
+    console.log(count);
+
+    return {
+      count: Number.parseInt(count[0].count),
+
+      products,
+    };
    } catch (error) {
       throw new InternalServerErrorException(error.message);
    }

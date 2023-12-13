@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DataSource } from 'typeorm';
@@ -12,9 +16,14 @@ export class UsersService {
     return 'This action adds a new user';
   }
 
-  findAll() {
-    // select everything from the user table except the password
-    return this.dataSource.query(`SELECT id,name,email,image FROM users`);
+  async findAll() {
+    const result = await this.dataSource.query(`SELECT * FROM users`);
+    const users = result.map((user: User) => {
+      delete user.password;
+      return user;
+    });
+    return users;
+    // sql query to select all columns except password and not hardcoded
   }
 
   async findOne(id: number) {
@@ -23,14 +32,48 @@ export class UsersService {
       [id],
     );
 
-    return user[0];
+    delete user.password;
+
+    if (!user) {
+      return {
+        id,
+        message: 'user not found',
+      };
+    }
+
+    return {
+      message: 'user found',
+      user,
+    };
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    try {
+      // check if the user exists
+      const user = this.findOne(id);
+      if (!user) {
+        return null;
+      }
+      // delete the user
+      const result = await this.dataSource.query(
+        `DELETE FROM users WHERE id = ?`,
+        [id],
+      );
+      if (result.affectedRows > 0) {
+        return { message: 'user deleted successfully', id };
+      }
+      return new InternalServerErrorException({
+        message: 'An error occured while deleting user',
+      });
+    } catch (error) {
+      return new InternalServerErrorException({
+        message: 'An error occured while deleting user',
+        error,
+      });
+    }
   }
 }

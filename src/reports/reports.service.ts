@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
@@ -21,12 +22,18 @@ export class ReportsService {
       `INSERT INTO reports (user_id, comment) VALUES (?,?)`,
       [userId, createReportDto.comment],
     );
-    console.log(
-      '🚀 ~ file: reports.service.ts ~ line 151 ~ ReportsService ~ create ~ result',
-      result,
-    );
-
-    return null;
+    if (result.affectedRows < 1) {
+      throw new InternalServerErrorException({
+        message: 'An error occured while creating report',
+      });
+    }
+    return {
+      message: 'report created',
+      report: {
+        id: result.insertId,
+        comment: createReportDto.comment,
+      },
+    };
 
     // try {
     //   const result = await this.mailerService.sendMail({
@@ -46,12 +53,33 @@ export class ReportsService {
     // }
   }
 
-  findAll() {
-    return this.dataSource.query(`SELECT * FROM reports`);
+  async findAll() {
+    const reports = await this.dataSource.query(`SELECT * FROM reports`);
+    if (reports.length < 1) {
+      return {
+        message: 'no reports found',
+      };
+    }
+    return {
+      message: 'reports found',
+      reports,
+    };
   }
 
-  findOne(id: number) {
-    return this.dataSource.query(`SELECT * FROM reports WHERE id = ?`, [id]);
+  async findOne(id: number) {
+    const report = await this.dataSource.query(
+      `SELECT * FROM reports WHERE id = ?`,
+      [id],
+    );
+    if (report.length < 1) {
+      throw new NotFoundException({
+        message: 'report not found',
+      });
+    }
+    return {
+      message: 'report found',
+      report,
+    };
   }
 
   // update(id: number, updateReportDto: UpdateReportDto) {

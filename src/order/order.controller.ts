@@ -15,6 +15,7 @@ import { RolesGuard } from 'src/common/roles.guard';
 import { Role } from 'src/auth/entity/user.entity';
 import { Roles } from 'src/common/roles.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { log } from 'console';
 
 @Controller('orders')
 export class OrderController {
@@ -89,6 +90,7 @@ export class OrderController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   async createOrder(@Body() createOrderDto: OrderDto): Promise<any> {
+    log(createOrderDto);
     const result = await this.orderService.createOrder(createOrderDto);
     return {
       message: 'order created',
