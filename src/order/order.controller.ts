@@ -7,6 +7,7 @@ import {
   Post,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { OrderDto } from './dto/order.dto';
@@ -15,7 +16,6 @@ import { RolesGuard } from 'src/common/roles.guard';
 import { Role } from 'src/auth/entity/user.entity';
 import { Roles } from 'src/common/roles.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { log } from 'console';
 
 @Controller('orders')
 export class OrderController {
@@ -23,13 +23,28 @@ export class OrderController {
 
   @Get('/')
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
   async getAllOrders(): Promise<any> {
     const orders = await this.orderService.getAllOrders();
     if (orders) {
       return {
+        message: 'orders found',
+        orders: orders,
+      };
+    }
+  }
+  @Get('/me')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  async getAllOrdersForMe(@Req() req): Promise<any> {
+    const orders = await this.orderService.getAllOrdersForUser(
+      req.user.user_id,
+    );
+    if (orders) {
+      return {
+        id: req.user.user_id,
         message: 'orders found',
         orders: orders,
       };
@@ -68,6 +83,23 @@ export class OrderController {
       };
     }
   }
+  @Get('/order/:orderId/items')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+
+  //get order items
+  async getOrderItems(
+    @Param('orderId', ParseIntPipe) orderId: number,
+  ): Promise<any> {
+    const orderItems = await this.orderService.getOrderItems(orderId);
+    if (orderItems) {
+      return {
+        id: orderId,
+        message: 'order items found',
+        orderItems: orderItems,
+      };
+    }
+  }
 
   @Delete('/order/:orderId')
   @ApiBearerAuth()
@@ -89,9 +121,14 @@ export class OrderController {
   @Post('/order')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  async createOrder(@Body() createOrderDto: OrderDto): Promise<any> {
-    log(createOrderDto);
-    const result = await this.orderService.createOrder(createOrderDto);
+  async createOrder(
+    @Body() createOrderDto: OrderDto,
+    @Req() req,
+  ): Promise<any> {
+    const result = await this.orderService.createOrder(
+      createOrderDto,
+      req.user.user_id,
+    );
     return {
       message: 'order created',
       result: result,

@@ -79,3 +79,74 @@ CREATE TABLE reports (
 -- select the reports for the user 1
 -- @BLOCK
 SELECT comment FROM reports WHERE user_id = 1;
+
+
+
+-- @block
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT, -- Foreign key to orders table
+    product_id INT, -- Foreign key to products table
+    quantity INT,
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+
+-- @block
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT, -- Foreign key to users table
+    -- total price and make some constraints
+    total_price INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+-- @block
+SELECT * FROM orders;
+
+-- @block
+--  drop table orders
+ drop table orders
+
+
+-- @block
+--  show all the product columns  of all orders
+SELECT * FROM orders JOIN order_items ON orders.id = order_items.order_id JOIN product ON order_items.product_id = product.id;
+
+
+-- @block
+--  insert an order 
+INSERT INTO orders (user_id, total_price) VALUES (3, 1000); 
+
+-- @block
+--  insert an order item
+INSERT INTO order_items (order_id, product_id, quantity) VALUES (2, 10, 3);
+
+
+-- @BLOCK
+-- combine all the order items that have the same order_id 
+SELECT product.id, product.name, order_items.quantity
+FROM order_items
+INNER JOIN product ON order_items.product_id = product.id
+WHERE order_items.order_id = 2
+
+
+
+-- @BLOCK
+-- select all order_items that belongs to user 3
+SELECT order_items.id, order_items.order_id, order_items.product_id, order_items.quantity
+FROM order_items
+INNER JOIN orders ON order_items.order_id = orders.id
+WHERE orders.user_id = 3
+
+
+-- @BLOCK
+-- select all order_items that belongs to user 3
+SELECT orders.id AS order_id,
+           product.id AS product_id, product.name AS product_name, product.price
+    FROM orders
+    JOIN order_items ON orders.id = order_items.order_id
+    JOIN product ON order_items.product_id = product.id

@@ -21,5 +21,5 @@ export class Report {
   createdAt: Date;
 
   @ManyToOne(() => User, (user) => user.reports)
-  user: User;
+  user_id: User;
 }

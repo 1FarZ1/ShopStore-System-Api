@@ -9,13 +9,7 @@ export class Order {
   id: number;
 
   @Column()
-  name: string;
-
-  @Column()
   totalPrice: number;
-
-  
-  
 
   @CreateDateColumn()
   createdAt: Date;

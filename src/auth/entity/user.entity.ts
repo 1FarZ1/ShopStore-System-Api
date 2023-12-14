@@ -41,7 +41,7 @@ export class User {
    })
     role: Role;
 
-    @OneToMany(() => Report, (report) => report.user)
+    @OneToMany(() => Report, (report) => report.user_id)
     reports: Report[];
     
 

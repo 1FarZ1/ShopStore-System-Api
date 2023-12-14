@@ -77,8 +77,8 @@ query
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @ApiResponse({ status: HttpStatus.CREATED, description: 'add product' })
   async addProduct(@Body() productDto:ProductDto): Promise<any> {
     return this.productService.addProduct(

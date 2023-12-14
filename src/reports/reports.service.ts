@@ -9,6 +9,8 @@ import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { DataSource } from 'typeorm';
 import { MailerService } from '@nestjs-modules/mailer';
+import { Report } from './entities/report.entity';
+import { report } from 'process';
 
 @Injectable()
 export class ReportsService {
@@ -54,12 +56,17 @@ export class ReportsService {
   }
 
   async findAll() {
-    const reports = await this.dataSource.query(`SELECT * FROM reports`);
+    const reports: Report[] = await this.dataSource.query(
+      `SELECT * FROM reports`,
+    );
+
     if (reports.length < 1) {
       return {
         message: 'no reports found',
       };
     }
+    // type of reports
+    console.log(reports[0].user_id);
     return {
       message: 'reports found',
       reports,
