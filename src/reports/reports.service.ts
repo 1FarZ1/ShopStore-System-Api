@@ -6,7 +6,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
-import { UpdateReportDto } from './dto/update-report.dto';
 import { DataSource } from 'typeorm';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Report } from './entities/report.entity';
@@ -37,6 +36,10 @@ export class ReportsService {
       },
     };
 
+    // ----------------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------ NODE MAILER ---------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------------
+
     // try {
     //   const result = await this.mailerService.sendMail({
     //     from: '<fbekkouche149@gmail.com>', // List of receivers email address
@@ -53,11 +56,17 @@ export class ReportsService {
     //     error,
     //   });
     // }
+    // ----------------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------ NODE MAILER ---------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------------
   }
 
-  async findAll() {
+  async findAll(limit: number = 10, pageNumber: number = 0) {
+    const offset = pageNumber > 0 ? pageNumber * limit : 0;
+
     const reports: Report[] = await this.dataSource.query(
-      `SELECT * FROM reports`,
+      `SELECT * FROM reports LIMIT ? OFFSET ?`,
+      [limit, offset],
     );
 
     if (reports.length < 1) {
@@ -65,8 +74,6 @@ export class ReportsService {
         message: 'no reports found',
       };
     }
-    // type of reports
-    console.log(reports[0].user_id);
     return {
       message: 'reports found',
       reports,
@@ -87,13 +94,5 @@ export class ReportsService {
       message: 'report found',
       report,
     };
-  }
-
-  // update(id: number, updateReportDto: UpdateReportDto) {
-  //   return `This action updates a #${id} report`;
-  // }
-
-  remove(id: number) {
-    return this.dataSource.query(`DELETE FROM reports WHERE id = ?`, [id]);
   }
 }

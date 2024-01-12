@@ -85,7 +85,7 @@ export class AuthService {
 
   async registerAdmin(createUserDto: CreateUserDto) {
     const isExistUser = await this.sqlDb.query(
-      `SELECT * FROM users WHERE email = '${createUserDto.email}'`,
+      `SELECT * FROM users WHERE email = '${createUserDto.email}' LIMIT 1`,
     );
     if (isExistUser.length > 0) {
       throw new BadRequestException('User alredy exist !');

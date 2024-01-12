@@ -86,7 +86,6 @@ export class OrderController {
   @Get('/order/:orderId/items')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-
   //get order items
   async getOrderItems(
     @Param('orderId', ParseIntPipe) orderId: number,
