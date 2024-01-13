@@ -604,6 +604,9 @@ SELECT ville, COUNT(ville) FROM personnes GROUP BY ville;
 SELECT filiere, COUNT(filiere) FROM ouvrages GROUP BY filiere;
 
 
--- 21. L’auteur (ou les auteurs) ayant écrit le plus d’ouvrages , like the most created , you should return no4 and no3
+-- 21. L’auteur (ou les auteurs) ayant écrit le plus d’ouvrages , like the most created 
 --@block
 SELECT auteur, COUNT(auteur) FROM ecrire GROUP BY auteur ORDER BY COUNT(auteur);
+
+
+

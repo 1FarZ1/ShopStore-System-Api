@@ -10,6 +10,7 @@ import { DataSource } from 'typeorm';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Report } from './entities/report.entity';
 import { report } from 'process';
+import { IsNotEmpty } from 'class-validator';
 
 @Injectable()
 export class ReportsService {
@@ -20,8 +21,9 @@ export class ReportsService {
 
   async create(createReportDto: CreateReportDto, userId: number) {
     const result = await this.dataSource.query(
-      `INSERT INTO reports (user_id, comment) VALUES (?,?)`,
-      [userId, createReportDto.comment],
+      `INSERT INTO report (comment) VALUES (?,?)`,
+      //[userId,
+      [createReportDto.comment],
     );
     if (result.affectedRows < 1) {
       throw new InternalServerErrorException({
@@ -65,34 +67,26 @@ export class ReportsService {
     const offset = pageNumber > 0 ? pageNumber * limit : 0;
 
     const reports: Report[] = await this.dataSource.query(
-      `SELECT * FROM reports LIMIT ? OFFSET ?`,
+      `SELECT * FROM report LIMIT ? OFFSET ?`,
       [limit, offset],
     );
-
-    if (reports.length < 1) {
-      return {
-        message: 'no reports found',
-      };
-    }
-    return {
-      message: 'reports found',
-      reports,
-    };
+    return reports;
   }
 
   async findOne(id: number) {
-    const report = await this.dataSource.query(
-      `SELECT * FROM reports WHERE id = ?`,
+    const result: Report[] = await this.dataSource.query(
+      `SELECT * FROM report WHERE id = ?`,
       [id],
     );
-    if (report.length < 1) {
+
+    if (result.length < 1) {
       throw new NotFoundException({
         message: 'report not found',
       });
     }
-    return {
-      message: 'report found',
-      report,
-    };
+
+    const report = result[0];
+
+    return report;
   }
 }

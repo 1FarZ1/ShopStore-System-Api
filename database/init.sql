@@ -23,3 +23,6 @@ SELECT * FROM product
 
 
 -- DELETE FROM product;
+
+
+SELECT * FROM u

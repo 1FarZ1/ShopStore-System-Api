@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
-import { ProductDto } from './dto/product.dto';
+import { AddProductDto } from './dto/add-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { ApiBearerAuth, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { QueryDto } from './dto/queryProducts.dto';
@@ -76,11 +76,11 @@ query
   @Post('/add')
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: HttpStatus.CREATED, description: 'add product' })
-  async addProduct(@Body() productDto:ProductDto): Promise<any> {
+  async addProduct(@Body() productDto:AddProductDto): Promise<any> {
     return this.productService.addProduct(
       productDto
     );}

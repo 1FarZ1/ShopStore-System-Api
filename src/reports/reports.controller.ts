@@ -20,6 +20,34 @@ import { Role } from 'src/auth/entity/user.entity';
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
+  @Get()
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  async findAll() {
+    const result = await this.reportsService.findAll();
+    if (result) {
+      return {
+        message: 'reports found',
+        reports: result,
+      };
+    }
+    return {
+      message: 'no reports found',
+    };
+  }
+
+  @Get(':id')
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  async findOne(@Param('id') id: string) {
+    const result = await this.reportsService.findOne(+id);
+    return result;
+  }
+
   @Post()
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -29,23 +57,5 @@ export class ReportsController {
 
       req.user.user_id,
     );
-  }
-
-  @Get()
-  @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
-  findAll() {
-    return this.reportsService.findAll();
-  }
-
-  @Get(':id')
-  @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
-  findOne(@Param('id') id: string) {
-    return this.reportsService.findOne(+id);
   }
 }

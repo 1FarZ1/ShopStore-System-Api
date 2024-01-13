@@ -20,7 +20,8 @@ export const databaseProviders = [
         database: process.env.DB_NAME,
         password: process.env.DB_PASSWORD ,
         entities: [User,Product,Report,Order],
-        synchronize: false,
+       //  migrations: ['./migrations/*.js'],
+        synchronize: true,
       });
       
 

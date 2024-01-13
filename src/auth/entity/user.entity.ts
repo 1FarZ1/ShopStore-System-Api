@@ -10,28 +10,24 @@ export enum Role {
 }
 @Entity(
   {
-    name: 'users',
+    name: 'user',
   },
 )
-
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 20 })
+  @Column({ length: 255 })
   name: string;
   
-    @Column({ length: 20 ,unique:true, nullable:false,  })
-    email: string;
+  @Column({ length: 255 ,unique:true, nullable:false,  })
+  email: string;
     
-    @Column({ length: 20 , nullable:false,  })
-    password: string;
+  @Column({ length: 255 , nullable:false,  })
+  password: string;
 
-    @Column({ nullable:true,  })
-    image: string;
 
-    // role
-    @Column({ type: 'enum', enum: Role, default: Role.USER,
+  @Column({ type: 'enum', enum: Role, default: Role.USER,
     nullable: false,
   transformer: {
     to: (entityValue: Role) => entityValue,
@@ -41,8 +37,8 @@ export class User {
    })
     role: Role;
 
-    @OneToMany(() => Report, (report) => report.user_id)
-    reports: Report[];
+    // @OneToMany(() => Report, (report) => report.user_id)
+    // reports: Report[];
     
 
 

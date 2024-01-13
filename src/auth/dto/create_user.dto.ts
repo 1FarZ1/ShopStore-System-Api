@@ -37,20 +37,20 @@ export class CreateUserDto {
   )
   name: string;
 
-  @IsString()
-  @IsOptional()
+  // @IsString()
+  // @IsOptional()
   
-  @ApiProperty(
-    {
-      required: false,
-      description: 'user image',
-      type: String,
-      // optional
-      default: 'image'
+  // @ApiProperty(
+  //   {
+  //     required: false,
+  //     description: 'user image',
+  //     type: String,
+  //     // optional
+  //     default: 'image'
 
-    }
-  )
-  image?: string;
+  //   }
+  // )
+  // image?: string;
 
 
 }

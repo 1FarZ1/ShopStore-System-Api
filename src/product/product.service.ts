@@ -2,7 +2,7 @@
 import { BadRequestException, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Product } from './entity/product.entity';
 import { DataSource } from 'typeorm';
-import { ProductDto } from './dto/product.dto';
+import { AddProductDto } from './dto/add-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { QueryDto } from './dto/queryProducts.dto';
 
@@ -129,7 +129,7 @@ export class ProductService {
   }
 
   async addProduct(
-    productDto: ProductDto,
+    productDto: AddProductDto,
   ): Promise<any> {
 
     // check if the product already exists

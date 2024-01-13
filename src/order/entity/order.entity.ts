@@ -1,9 +1,17 @@
 /* eslint-disable prettier/prettier */
-import { UpdateDateColumn } from "typeorm";
+import { Entity, UpdateDateColumn } from "typeorm";
 import { Column } from "typeorm/decorator/columns/Column";
 import { CreateDateColumn } from "typeorm/decorator/columns/CreateDateColumn";
 import { PrimaryGeneratedColumn } from "typeorm/decorator/columns/PrimaryGeneratedColumn";
 
+
+
+
+@Entity(
+  {
+    name: 'order',
+  },
+)
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;

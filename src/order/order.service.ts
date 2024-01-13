@@ -13,28 +13,26 @@ export class OrderService {
     private readonly productService: ProductService,
   ) {}
   async getAllOrdersForUser(userId: number): Promise<any> {
-    return this.dataSource.query(`SELECT * FROM orders WHERE user_id = ?`, [
+    return this.dataSource.query(`SELECT * FROM order WHERE user_id = ?`, [
       userId,
     ]);
   }
 
   async getOrderDetails(orderId: number): Promise<any> {
-    return this.dataSource.query(`SELECT * FROM orders WHERE order_id = ?`, [
+    return this.dataSource.query(`SELECT * FROM order WHERE order_id = ?`, [
       orderId,
     ]);
   }
 
   async getAllOrders(): Promise<any> {
-    const orders = await this.dataSource.query(
-      `SELECT * FROM orders RIGHT JOIN order_items ON orders.id = order_items.order_id`,
-    );
-
+    //RIGHT JOIN order_items ON orders.id = order_items.order_id
+    const orders = await this.dataSource.query(`SELECT * FROM order`);
     return orders;
   }
 
   async getOrderItems(orderId: number): Promise<any> {
     const orderItems = await this.dataSource.query(
-      `SELECT * FROM order_items LEFT JOIN product ON order_items.product_id = product.id WHERE order_id = ?`,
+      `SELECT * FROM order_item LEFT JOIN product ON order_item.product_id = product.id WHERE order_id = ?`,
       [orderId],
     );
     return orderItems;
@@ -72,7 +70,7 @@ export class OrderService {
 
   async deleteOrder(orderId: number): Promise<any> {
     return this.dataSource.query(
-      `DELETE FROM orders WHERE order_id = '${orderId}'`,
+      `DELETE FROM order WHERE order_id = '${orderId}'`,
     );
   }
 }

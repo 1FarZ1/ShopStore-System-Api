@@ -2,7 +2,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {  IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class ProductDto {
+export class AddProductDto {
     @IsNotEmpty()
     @IsString()
     @ApiProperty(
@@ -97,3 +97,4 @@ export class ProductDto {
     )
     category: string;
 }
+

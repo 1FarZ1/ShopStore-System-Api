@@ -1,8 +1,19 @@
-import { Body, Controller, HttpStatus, Post, HttpCode } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Post,
+  HttpCode,
+  Get,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login.dto';
 import { CreateUserDto } from './dto/create_user.dto';
 import { ApiResponse } from '@nestjs/swagger';
+import { AuthGuard } from './auth.guard';
+import { Role } from './entity/user.entity';
 type Result = {
   access_token: string;
   message: string;
@@ -64,6 +75,24 @@ export class AuthController {
     return {
       message: 'register successful',
       access_token: result.access_token,
+    };
+  }
+
+  @Get('/testing')
+  @UseGuards(AuthGuard)
+  async testing(
+    // request
+    @Req() request,
+  ): Promise<any> {
+    if (request.user == Role.USER) {
+      return {
+        message: 'testing user',
+        user: request.user,
+      };
+    }
+    return {
+      message: 'testing admin',
+      user: request.user,
     };
   }
 }

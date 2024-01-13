@@ -34,6 +34,9 @@ export class OrderController {
         orders: orders,
       };
     }
+    return {
+      message: 'no orders found',
+    };
   }
   @Get('/me')
   @ApiBearerAuth()

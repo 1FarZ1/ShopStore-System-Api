@@ -17,20 +17,21 @@ export class UsersService {
   }
 
   async findAll() {
-    const result = await this.dataSource.query(`SELECT * FROM users`);
+    const result = await this.dataSource.query(`SELECT * FROM user`);
     const users = result.map((user: User) => {
       delete user.password;
       return user;
     });
     return users;
-    // sql query to select all columns except password and not hardcoded
   }
 
   async findOne(id: number) {
-    const user: User = await this.dataSource.query(
-      `SELECT * FROM users WHERE id = ?`,
+    const result = await this.dataSource.query(
+      `SELECT * FROM user WHERE id = ? LIMIT 1`,
       [id],
     );
+
+    const user = result[0];
 
     delete user.password;
 
@@ -47,9 +48,9 @@ export class UsersService {
     };
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+  // update(id: number, updateUserDto: UpdateUserDto) {
+  //   return `This action updates a #${id} user`;
+  // }
 
   async remove(id: number) {
     try {
@@ -60,7 +61,7 @@ export class UsersService {
       }
       // delete the user
       const result = await this.dataSource.query(
-        `DELETE FROM users WHERE id = ?`,
+        `DELETE FROM user WHERE id = ?`,
         [id],
       );
       if (result.affectedRows > 0) {
