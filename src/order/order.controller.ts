@@ -25,7 +25,7 @@ export class OrderController {
   @ApiBearerAuth()
   // @Roles(Role.ADMIN)
   // @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   async getAllOrders(): Promise<any> {
     const orders = await this.orderService.getAllOrders();
     if (orders) {
@@ -34,9 +34,6 @@ export class OrderController {
         orders: orders,
       };
     }
-    return {
-      message: 'no orders found',
-    };
   }
   @Get('/me')
   @ApiBearerAuth()
@@ -56,6 +53,8 @@ export class OrderController {
 
   @Get('/:userId')
   @ApiBearerAuth()
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
   async getAllOrdersForUser(
     @Param('userId', ParseIntPipe) userId: number,
@@ -75,9 +74,13 @@ export class OrderController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   async getOrderDetails(
+    @Req() req,
     @Param('orderId', ParseIntPipe) orderId: number,
   ): Promise<any> {
-    const order = await this.orderService.getOrderDetails(orderId);
+    const order = await this.orderService.getOrderDetails(
+      orderId,
+      req.user.user_id,
+    );
     if (order) {
       return {
         id: orderId,
@@ -86,22 +89,23 @@ export class OrderController {
       };
     }
   }
-  @Get('/order/:orderId/items')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
-  //get order items
-  async getOrderItems(
-    @Param('orderId', ParseIntPipe) orderId: number,
-  ): Promise<any> {
-    const orderItems = await this.orderService.getOrderItems(orderId);
-    if (orderItems) {
-      return {
-        id: orderId,
-        message: 'order items found',
-        orderItems: orderItems,
-      };
-    }
-  }
+
+  // @Get('/order/:orderId/items')
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard)
+  // //get order items
+  // async getOrderItems(
+  //   @Param('orderId', ParseIntPipe) orderId: number,
+  // ): Promise<any> {
+  //   const orderItems = await this.orderService.getOrderItems(orderId);
+  //   if (orderItems) {
+  //     return {
+  //       id: orderId,
+  //       message: 'order items found',
+  //       orderItems: orderItems,
+  //     };
+  //   }
+  // }
 
   @Delete('/order/:orderId')
   @ApiBearerAuth()
@@ -120,7 +124,7 @@ export class OrderController {
     }
   }
 
-  @Post('/order')
+  @Post('/new')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   async createOrder(

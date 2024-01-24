@@ -24,4 +24,9 @@ export class OrderDto {
   @ValidateNested({ each: true })
   @Type(() => ProductDto)
   products: ProductDto[];
+
+
 }
+
+// give me exemple of the dto
+

@@ -19,6 +19,11 @@ export class Order {
   @Column()
   totalPrice: number;
 
+
+  // user_id
+  @Column()
+  user_id: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

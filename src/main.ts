@@ -23,5 +23,6 @@ async function bootstrap() {
   SwaggerModule.setup('/docs', app, document);
 
   await app.listen(process.env.APP_PORT || 3000);
+  console.log('Server is running on http://localhost:3000');
 }
 bootstrap();

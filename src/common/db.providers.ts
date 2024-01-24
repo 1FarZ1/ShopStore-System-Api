@@ -14,19 +14,21 @@ export const databaseProviders = [
       
       const dataSource = new DataSource({
         type: 'mysql',
-        host: process.env.DB_HOST ,
+        host: process.env.DB_HOST,
         port:  parseInt(process.env.DB_PORT, 10) || 3000,
         username: process.env.DB_USERNAME,
         database: process.env.DB_NAME,
         password: process.env.DB_PASSWORD ,
         entities: [User,Product,Report,Order],
        //  migrations: ['./migrations/*.js'],
-        synchronize: true,
+        synchronize: false,
       });
       
+      const connection = await dataSource.initialize();
+        
 
 
-      return dataSource.initialize();
+      return connection;
     },
   },
 ];
