@@ -11,7 +11,6 @@ import { JwtModule } from '@nestjs/jwt';
       secret: 'secret',
       signOptions: { expiresIn: process.env.JWT_EXPIRED || '10000000s' },
     }),
-    // TypeOrmModule.forFeature([User]),
   ],
   controllers: [AuthController],
   providers: [AuthService],

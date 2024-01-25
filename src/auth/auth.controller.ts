@@ -80,10 +80,7 @@ export class AuthController {
 
   @Get('/testing')
   @UseGuards(AuthGuard)
-  async testing(
-    // request
-    @Req() request,
-  ): Promise<any> {
+  async testing(@Req() request): Promise<any> {
     if (request.user == Role.USER) {
       return {
         message: 'testing user',

@@ -23,9 +23,9 @@ export class OrderController {
 
   @Get('/')
   @ApiBearerAuth()
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(AuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
   async getAllOrders(): Promise<any> {
     const orders = await this.orderService.getAllOrders();
     if (orders) {
@@ -53,8 +53,8 @@ export class OrderController {
 
   @Get('/:userId')
   @ApiBearerAuth()
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
   async getAllOrdersForUser(
     @Param('userId', ParseIntPipe) userId: number,
@@ -90,22 +90,22 @@ export class OrderController {
     }
   }
 
-  // @Get('/order/:orderId/items')
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard)
-  // //get order items
-  // async getOrderItems(
-  //   @Param('orderId', ParseIntPipe) orderId: number,
-  // ): Promise<any> {
-  //   const orderItems = await this.orderService.getOrderItems(orderId);
-  //   if (orderItems) {
-  //     return {
-  //       id: orderId,
-  //       message: 'order items found',
-  //       orderItems: orderItems,
-  //     };
-  //   }
-  // }
+  @Get('/order/:orderId/items')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  //get order items
+  async getOrderItems(
+    @Param('orderId', ParseIntPipe) orderId: number,
+  ): Promise<any> {
+    const orderItems = await this.orderService.getOrderItems(orderId);
+    if (orderItems) {
+      return {
+        id: orderId,
+        message: 'order items found',
+        orderItems: orderItems,
+      };
+    }
+  }
 
   @Delete('/order/:orderId')
   @ApiBearerAuth()
@@ -126,6 +126,8 @@ export class OrderController {
 
   @Post('/new')
   @ApiBearerAuth()
+  @Roles(Role.USER)
+  @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
   async createOrder(
     @Body() createOrderDto: OrderDto,
@@ -140,17 +142,4 @@ export class OrderController {
       result: result,
     };
   }
-
-  //update order
-  //   @Put('/order/:orderId')
-  //   async updateOrder(
-  //     @Param('orderId', ParseIntPipe) orderId: number,
-  //     @Body() orderDto: OrderDto,
-  //   ): Promise<any> {
-  //     const result = await this.orderService.updateOrder(orderId, orderDto);
-  //     return {
-  //       message: 'order updated',
-  //       result: result,
-  //     };
-  //   }
 }
