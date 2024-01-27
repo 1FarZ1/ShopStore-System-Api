@@ -64,11 +64,12 @@ export class ReportsService {
 
   async findAll(limit: number = 10, pageNumber: number = 0) {
     const offset = pageNumber > 0 ? pageNumber * limit : 0;
-
+    // join with user table
     const reports: Report[] = await this.dataSource.query(
-      `SELECT * FROM report LIMIT ? OFFSET ?`,
+      `SELECT report.id,report.comment,user.id as user_id,user.name as user_name,user.email as user_email FROM report INNER JOIN user ON report.user_id = user.id LIMIT ? OFFSET ?`,
       [limit, offset],
     );
+
     return reports;
   }
 

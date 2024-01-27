@@ -103,6 +103,7 @@ query
       message : "product updated successfully",
       updatedProduct : result
     }
+    
   }
 
   @Delete('/delete/:productId')

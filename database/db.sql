@@ -82,15 +82,6 @@ SELECT comment FROM reports WHERE user_id = 1;
 
 
 
--- @block
-CREATE TABLE order_items (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT, -- Foreign key to orders table
-    product_id INT, -- Foreign key to products table
-    quantity INT,
-    FOREIGN KEY (order_id) REFERENCES orders(id),
-    FOREIGN KEY (product_id) REFERENCES product(id)
-);
 
 
 -- @block
@@ -105,7 +96,7 @@ CREATE TABLE orders (
 
 
 -- @block
-SELECT * FROM orders;
+SELECT * FROM `order`;
 
 -- @block
 --  drop table orders
@@ -153,3 +144,13 @@ SELECT orders.id AS order_id,
 
 
 -- 
+
+-- @block
+CREATE TABLE order_item (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (`order_id`) REFERENCES `order`(`id`),
+    FOREIGN KEY (`product_id`) REFERENCES `product`(`id`)
+);
