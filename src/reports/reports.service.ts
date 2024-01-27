@@ -21,9 +21,8 @@ export class ReportsService {
 
   async create(createReportDto: CreateReportDto, userId: number) {
     const result = await this.dataSource.query(
-      `INSERT INTO report (comment) VALUES (?,?)`,
-      //[userId,
-      [createReportDto.comment],
+      `INSERT INTO report (user_id,comment) VALUES (?,?)`,
+      [userId, createReportDto.comment],
     );
     if (result.affectedRows < 1) {
       throw new InternalServerErrorException({

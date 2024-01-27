@@ -20,6 +20,6 @@ export class Report {
   @CreateDateColumn()
   createdAt: Date;
 
-  // @ManyToOne(() => User, (user) => user.reports)
-  // user_id: User;
+  @ManyToOne(() => User, (user) => user.reports)
+  user_id: User;
 }

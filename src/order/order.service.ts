@@ -126,10 +126,11 @@ export class OrderService {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async updateOrder(orderId: number, order: OrderDto): Promise<any> {
-    // return this.dataSource.query(
-    //   `UPDATE orders SET quantity = '${quantity}', status = '${status}' WHERE order_id = '${orderId}'`,
-    // );
-    return null;
+    const quantity = 0;
+    const status = 'pending';
+    return this.dataSource.query(
+      `UPDATE orders SET quantity = '${quantity}', status = '${status}' WHERE order_id = '${orderId}'`,
+    );
   }
 
   async deleteOrder(orderId: number): Promise<any> {

@@ -69,12 +69,12 @@ ALTER TABLE users ADD role VARCHAR(200) NOT NULL;
 
 
 
-CREATE TABLE reports (
+CREATE TABLE report (
     id SERIAL PRIMARY KEY,
     comment TEXT,
     user_id INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) -- Assuming users table exists with an 'id' column
+    FOREIGN KEY (user_id) REFERENCES user(id) -- Assuming users table exists with an 'id' column
 );
 -- select the reports for the user 1
 -- @BLOCK
@@ -150,3 +150,6 @@ SELECT orders.id AS order_id,
     FROM orders
     JOIN order_items ON orders.id = order_items.order_id
     JOIN product ON order_items.product_id = product.id
+
+
+-- 
