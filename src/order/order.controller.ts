@@ -72,14 +72,14 @@ export class OrderController {
   //get order details
   @Get('/order/:orderId')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   async getOrderDetails(
     @Req() req,
     @Param('orderId', ParseIntPipe) orderId: number,
   ): Promise<any> {
     const order = await this.orderService.getOrderDetails(
       orderId,
-      req.user.user_id,
+      // req.user.user_id,
     );
     if (order) {
       return {

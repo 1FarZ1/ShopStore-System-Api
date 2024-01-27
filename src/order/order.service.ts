@@ -23,7 +23,7 @@ export class OrderService {
     ]);
   }
 
-  async getOrderDetails(orderId: number, user_id: number): Promise<any> {
+  async getOrderDetails(orderId: number): Promise<any> {
     // const canSee = await this.orderBelongsToUser(orderId, user_id);
 
     // if (!canSee) {
@@ -31,7 +31,6 @@ export class OrderService {
     //     'You are not allowed to see this order details',
     //   );
     // }
-    console.log(user_id);
 
     const order = await this.dataSource.query(
       'SELECT * FROM `order` WHERE id = ?',
