@@ -12,7 +12,13 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  });
   app.useLogger(['error', 'warn']);
   const config = new DocumentBuilder()
     .setTitle('Bdd API Project')
