@@ -127,7 +127,7 @@ export class OrderService {
       );
     });
 
-    const orderDetails = await this.getOrderDetails(orderId, user_id);
+    const orderDetails = await this.getOrderDetails(orderId);
     return orderDetails;
   }
 
