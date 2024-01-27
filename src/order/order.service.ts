@@ -63,9 +63,17 @@ export class OrderService {
   }
 
   async getAllOrders(): Promise<any> {
-    //RIGHT JOIN order_items ON orders.id = order_items.order_id
-    const orders: Order[] = await this.dataSource.query(
-      'SELECT * FROM `order`',
+    //join user table to get user details
+    const orders = await this.dataSource.query(
+      `SELECT
+      \`order\`.id,
+      \`order\`.totalPrice,
+      \`order\`.createdAt,
+      \`order\`.updatedAt,
+      user.id AS userId,
+      user.name AS userName,
+      user.email AS userEmail 
+      FROM \`order\` LEFT JOIN user ON \`order\`.user_id = user.id`,
     );
 
     return orders;
