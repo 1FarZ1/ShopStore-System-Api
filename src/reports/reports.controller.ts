@@ -22,9 +22,9 @@ export class ReportsController {
 
   @Get()
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
   async findAll() {
     const result = await this.reportsService.findAll();
     if (result) {
@@ -40,9 +40,9 @@ export class ReportsController {
 
   @Get(':id')
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
   async findOne(@Param('id') id: string) {
     const result = await this.reportsService.findOne(+id);
     return result;

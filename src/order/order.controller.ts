@@ -23,9 +23,9 @@ export class OrderController {
 
   @Get('/')
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
   async getAllOrders(): Promise<any> {
     const orders = await this.orderService.getAllOrders();
     if (orders) {
@@ -53,9 +53,9 @@ export class OrderController {
 
   @Get('/:userId')
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
   async getAllOrdersForUser(
     @Param('userId', ParseIntPipe) userId: number,
   ): Promise<any> {
@@ -92,7 +92,7 @@ export class OrderController {
 
   @Get('/order/:orderId/items')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   //get order items
   async getOrderItems(
     @Param('orderId', ParseIntPipe) orderId: number,
@@ -109,9 +109,9 @@ export class OrderController {
 
   @Delete('/order/:orderId')
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
   async deleteOrder(
     @Param('orderId', ParseIntPipe) orderId: number,
   ): Promise<any> {
@@ -126,8 +126,8 @@ export class OrderController {
 
   @Post('/new')
   @ApiBearerAuth()
-  @Roles(Role.USER)
-  @UseGuards(RolesGuard)
+  // @Roles(Role.USER)
+  // @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
   async createOrder(
     @Body() createOrderDto: OrderDto,

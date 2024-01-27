@@ -76,9 +76,9 @@ query
   @Post('/add')
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
   @ApiResponse({ status: HttpStatus.CREATED, description: 'add product' })
   async addProduct(@Body() productDto:AddProductDto): Promise<any> {
     return this.productService.addProduct(
@@ -89,10 +89,10 @@ query
 
   @Patch('/update/:productId')
   @HttpCode(HttpStatus.OK)
-  @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @ApiBearerAuth()
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
 
   async updateProductDetaills(@Param('productId',ParseIntPipe) productId: number,
   @Body() productDto:EditProductDto 
@@ -107,9 +107,9 @@ query
 
   @Delete('/delete/:productId')
   @ApiBearerAuth()
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   async deleteProduct(@Param('productId',ParseIntPipe) productId:number): Promise<any> {
     if( await this.productService.deleteProduct(productId)){

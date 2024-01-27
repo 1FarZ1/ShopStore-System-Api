@@ -16,14 +16,14 @@ export class UsersController {
 
   @Get(':id')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
 
   @Delete('/delete/:id')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
