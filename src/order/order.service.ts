@@ -99,7 +99,7 @@ export class OrderService {
 
     console.log('-------------------- CREATE ORDER -------------------- ');
     console.log('username: ', username);
-
+    console.log('products: ', products);
     const orderItems = products.map((product) => {
       return {
         productId: product.id,

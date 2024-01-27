@@ -151,6 +151,7 @@ CREATE TABLE order_item (
     order_id INT NOT NULL,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
+    price INT NOT NULL,
     FOREIGN KEY (`order_id`) REFERENCES `order`(`id`),
     FOREIGN KEY (`product_id`) REFERENCES `product`(`id`)
 );
