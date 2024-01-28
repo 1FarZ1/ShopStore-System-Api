@@ -140,7 +140,8 @@ CREATE TABLE order_item (
     quantity INT NOT NULL,
     price INT NOT NULL,
     FOREIGN KEY (`order_id`) REFERENCES `order`(`id`),
-    FOREIGN KEY (`product_id`) REFERENCES `product`(`id`)
+    -- foreign key with constraints when deleting the product id 
+    FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE CASCADE
 );
 
 
@@ -155,5 +156,4 @@ DELETE FROM `order`
 
 
 -- @block
-ALTER TABLE order_item ADD FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE;
 
