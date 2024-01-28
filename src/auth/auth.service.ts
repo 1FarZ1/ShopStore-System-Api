@@ -82,20 +82,23 @@ export class AuthService {
     };
   }
 
-  async registerAdmin(createUserDto: CreateUserDto) {
+  async loginAdmin(createUserDto: LoginUserDto) {
     const isExistUser = await this.sqlDb.query(
       `SELECT * FROM user WHERE email = '${createUserDto.email}' LIMIT 1`,
     );
-    if (isExistUser.length > 0) {
-      throw new BadRequestException('User alredy exist !');
+    if (isExistUser.length == 0) {
+      throw new BadRequestException('User Doesnt exist !');
     }
-    const hashedPassword = Utils.hashPassword(createUserDto.password);
 
-    await this.sqlDb.query(
-      `INSERT INTO user (email,name,password,image,role) VALUES ('${createUserDto.email}','${createUserDto.name}','${hashedPassword}','', 'admin')`,
+    const isMatch = Utils.comparePassword(
+      createUserDto.password,
+      isExistUser[0].password,
     );
+    if (!isMatch) {
+      throw new BadRequestException('Wrong credentials !');
+    }
 
-    const user = await this.sqlDb
+    const user: User = await this.sqlDb
       .query(
         `SELECT * FROM user WHERE email = '${createUserDto.email}' LIMIT 1 `,
       )
@@ -104,7 +107,7 @@ export class AuthService {
     const payload = { user_id: user.id, username: user.name };
     const access_token = await this.jwtService.signAsync(payload);
     return {
-      message: 'user created',
+      message: 'login success',
       access_token: access_token,
     };
   }
