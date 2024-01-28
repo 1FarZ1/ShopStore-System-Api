@@ -1,6 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { databaseProviders } from './common/db.providers';
+import { databaseProviders } from './shared/db.providers';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
@@ -20,7 +19,6 @@ import { UsersModule } from './users/users.module';
     ReportsModule,
     UsersModule,
   ],
-  controllers: [AppController],
   providers: [...databaseProviders],
   exports: [...databaseProviders],
 })

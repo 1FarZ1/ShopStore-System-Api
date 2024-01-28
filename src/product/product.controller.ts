@@ -19,10 +19,13 @@ import { AddProductDto } from './dto/add-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { ApiBearerAuth, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { QueryDto } from './dto/queryProducts.dto';
-import { RolesGuard } from 'src/common/roles.guard';
-import { Roles } from 'src/common/roles.decorator';
+import { RolesGuard } from 'src/shared/roles.guard';
+import { Roles } from 'src/shared/roles.decorator';
 import { Role } from 'src/auth/entity/user.entity';
 import { AuthGuard } from 'src/auth/auth.guard';
+
+
+// removing gaurds for testing and development
 
 @Controller('products')
 export class ProductController {
@@ -103,7 +106,7 @@ query
       message : "product updated successfully",
       updatedProduct : result
     }
-    
+
   }
 
   @Delete('/delete/:productId')

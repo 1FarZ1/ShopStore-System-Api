@@ -12,8 +12,8 @@ import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { RolesGuard } from 'src/common/roles.guard';
-import { Roles } from 'src/common/roles.decorator';
+import { RolesGuard } from 'src/shared/roles.guard';
+import { Roles } from 'src/shared/roles.decorator';
 import { Role } from 'src/auth/entity/user.entity';
 
 @Controller('reports')

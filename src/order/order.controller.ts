@@ -12,11 +12,12 @@ import {
 import { OrderService } from './order.service';
 import { OrderDto } from './dto/order.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { RolesGuard } from 'src/common/roles.guard';
+import { RolesGuard } from 'src/shared/roles.guard';
 import { Role } from 'src/auth/entity/user.entity';
-import { Roles } from 'src/common/roles.decorator';
+import { Roles } from 'src/shared/roles.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
+// removing gaurds for testing and development
 @Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
