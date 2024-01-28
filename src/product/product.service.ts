@@ -30,7 +30,6 @@ export class ProductService {
     limit = limit || 10;
     const offset = (page) * limit;
 
-    // check if page and limit are valid
     if (page < 0 || limit < 1) {
       throw new BadRequestException('Invalid page or limit');
     }
@@ -100,7 +99,8 @@ export class ProductService {
         )
       }
 
-
+      // Should optmize this to a seperate function to optain the single responsibility principle
+      // also should use a mapper to map the dto to the entity
       const updateFields = [];
 
       for (const [key, value] of Object.entries(productDto)) {
@@ -132,7 +132,6 @@ export class ProductService {
     productDto: AddProductDto,
   ): Promise<any> {
 
-    // check if the product already exists
     const result = await this.dataSource.query(
       `SELECT * FROM product WHERE name = '${productDto.name}'`,
     );
@@ -149,7 +148,6 @@ export class ProductService {
     );
    
 
-    // get detaills about product
     const product = await this.getProductDetaills(insertResult.insertId);
     
  

@@ -43,8 +43,8 @@ export class ReportsService {
 
     // try {
     //   const result = await this.mailerService.sendMail({
-    //     from: '<fbekkouche149@gmail.com>', // List of receivers email address
-    //     to: 'farzbussiness@gmail.com', // Senders email address
+    //     from: '<test@gmail.com>', // List of receivers email address
+    //     to: 'test@gmail.com', // Senders email address
     //     subject: 'Testing Nest MailerModule ✔', // Subject line
     //     text: 'welcome', // plaintext body
     //     html: '<b>welcome</b>', // HTML body content
@@ -64,7 +64,6 @@ export class ReportsService {
 
   async findAll(limit: number = 10, pageNumber: number = 0) {
     const offset = pageNumber > 0 ? pageNumber * limit : 0;
-    // join with user table
     const reports: Report[] = await this.dataSource.query(
       `SELECT report.id,report.comment,user.id as user_id,user.name as user_name,user.email as user_email FROM report INNER JOIN user ON report.user_id = user.id LIMIT ? OFFSET ?`,
       [limit, offset],

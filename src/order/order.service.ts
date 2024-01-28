@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  ForbiddenException,
+  // ForbiddenException,
   Inject,
   Injectable,
   NotFoundException,
@@ -8,7 +9,7 @@ import { DataSource } from 'typeorm';
 import { OrderDto } from './dto/order.dto';
 import { UsersService } from 'src/users/users.service';
 import { ProductService } from 'src/product/product.service';
-import { Order } from './entity/order.entity';
+// import { Order } from './entity/order.entity';
 
 @Injectable()
 export class OrderService {
@@ -40,7 +41,6 @@ export class OrderService {
     if (order.length === 0) {
       throw new NotFoundException('Order with the provided id does not exist');
     }
-    //get order items
     const orderItems = await this.getOrderItems(orderId);
 
     return {
@@ -62,7 +62,6 @@ export class OrderService {
   }
 
   async getAllOrders(): Promise<any> {
-    //join user table to get user details
     const orders = await this.dataSource.query(
       `SELECT
       \`order\`.id,
@@ -96,7 +95,9 @@ export class OrderService {
     const products = await Promise.all(myPromise);
     const username = result.user.name;
 
-    console.log('-------------------- CREATE ORDER -------------------- ');
+    console.log(
+      '-------------------- CREATE ORDER Informations -------------------- ',
+    );
     console.log('username: ', username);
     console.log('products: ', products);
     const orderItems = products.map((product) => {
@@ -131,7 +132,6 @@ export class OrderService {
     return orderDetails;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async updateOrder(orderId: number, order: OrderDto): Promise<any> {
     const quantity = 0;
     const status = 'pending';

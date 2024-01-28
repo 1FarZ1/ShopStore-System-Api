@@ -11,7 +11,7 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './entity/product.entity';
@@ -19,10 +19,10 @@ import { AddProductDto } from './dto/add-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { ApiBearerAuth, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { QueryDto } from './dto/queryProducts.dto';
-import { RolesGuard } from 'src/shared/roles.guard';
-import { Roles } from 'src/shared/roles.decorator';
-import { Role } from 'src/auth/entity/user.entity';
-import { AuthGuard } from 'src/auth/auth.guard';
+// import { RolesGuard } from 'src/shared/roles.guard';
+// import { Roles } from 'src/shared/roles.decorator';
+// import { Role } from 'src/auth/entity/user.entity';
+// import { AuthGuard } from 'src/auth/auth.guard';
 
 
 // removing gaurds for testing and development
