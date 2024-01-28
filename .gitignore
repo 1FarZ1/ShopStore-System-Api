@@ -36,3 +36,4 @@ lerna-debug.log*
 .env
 database/db.sql
 database/new.sql
+database/main.sql

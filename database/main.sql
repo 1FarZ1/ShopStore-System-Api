@@ -63,7 +63,6 @@ INSERT INTO users VALUES(
 )
 
 
--- add a column named role into users table , that contain either adimn or user
 -- @BLOCK
 ALTER TABLE users ADD role VARCHAR(200) NOT NULL;
 
@@ -76,7 +75,6 @@ CREATE TABLE report (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user(id) -- Assuming users table exists with an 'id' column
 );
--- select the reports for the user 1
 -- @BLOCK
 SELECT comment FROM reports WHERE user_id = 1;
 
@@ -104,7 +102,6 @@ SELECT * FROM `order`;
 
 
 -- @block
---  show all the product columns  of all orders
 SELECT * FROM orders JOIN order_items ON orders.id = order_items.order_id JOIN product ON order_items.product_id = product.id;
 
 
@@ -168,7 +165,6 @@ DELETE FROM `order`
 
 
 
--- make that when i delete  a product , order_item that have this product_id will be deleted
 -- @block
 ALTER TABLE order_item ADD FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE;
 
