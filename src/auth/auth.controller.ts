@@ -4,20 +4,18 @@ import {
   HttpStatus,
   Post,
   HttpCode,
-  Get,
-  UseGuards,
-  Req,
+  // Get,
+  // UseGuards,
+  // Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login.dto';
 import { CreateUserDto } from './dto/create_user.dto';
 import { ApiResponse } from '@nestjs/swagger';
-import { AuthGuard } from './auth.guard';
-import { Role } from './entity/user.entity';
-type Result = {
-  access_token: string;
-  message: string;
-};
+import { Result } from './types';
+// import { AuthGuard } from './auth.guard';
+// import { Role } from './entity/user.entity';
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -36,10 +34,10 @@ export class AuthController {
   @Post('/login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<any> {
     const result: Result = await this.authService.login(loginUserDto);
-    console.log(
-      '🚀 ~ file: auth.controller.ts ~ line 35 ~ AuthController ~ loginUserDto',
-      loginUserDto,
-    );
+    // console.log(
+    //   '🚀 ~ file: auth.controller.ts ~ line 35 ~ AuthController ~ loginUserDto',
+    //   loginUserDto,
+    // );
 
     return {
       message: 'login successful',
