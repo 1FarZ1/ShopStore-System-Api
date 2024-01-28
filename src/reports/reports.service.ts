@@ -15,8 +15,7 @@ import { IsNotEmpty } from 'class-validator';
 @Injectable()
 export class ReportsService {
   constructor(
-    @Inject('DATA_SOURCE') private dataSource: DataSource,
-    private mailerService: MailerService,
+    @Inject('DATA_SOURCE') private dataSource: DataSource, // private mailerService: MailerService,
   ) {}
 
   async create(createReportDto: CreateReportDto, userId: number) {
