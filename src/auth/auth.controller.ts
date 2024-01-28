@@ -77,19 +77,4 @@ export class AuthController {
       access_token: result.access_token,
     };
   }
-
-  @Get('/testing')
-  @UseGuards(AuthGuard)
-  async testing(@Req() request): Promise<any> {
-    if (request.user == Role.USER) {
-      return {
-        message: 'testing user',
-        user: request.user,
-      };
-    }
-    return {
-      message: 'testing admin',
-      user: request.user,
-    };
-  }
 }
