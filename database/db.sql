@@ -155,3 +155,20 @@ CREATE TABLE order_item (
     FOREIGN KEY (`order_id`) REFERENCES `order`(`id`),
     FOREIGN KEY (`product_id`) REFERENCES `product`(`id`)
 );
+
+
+
+-- deelte all rows from order_item
+-- @block
+DELETE FROM order_item;
+
+DELETE FROM `product`
+
+DELETE FROM `order`
+
+
+
+-- make that when i delete  a product , order_item that have this product_id will be deleted
+-- @block
+ALTER TABLE order_item ADD FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE;
+
