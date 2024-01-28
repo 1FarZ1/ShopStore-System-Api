@@ -1,10 +1,9 @@
 -- Active: 1698948517192@@bmlrstyprbhu5tvpykrk-mysql.services.clever-cloud.com@3306@bmlrstyprbhu5tvpykrk
--- SELECT * FROM users
 
 
 -- @block
 CREATE TABLE users (
-    -- id INT  AUTO_INCREMENT,
+     id INT  AUTO_INCREMENT,
     name VARCHAR(200) NOT NULL,
     email VARCHAR(200) NOT NULL,
     password VARCHAR(200) NOT NULL,
@@ -14,7 +13,7 @@ CREATE TABLE users (
 
 -- @block
 CREATE TABLE product (
-    -- id INT  AUTO_INCREMENT,
+     id INT  AUTO_INCREMENT,
     name VARCHAR(200) NOT NULL,
     description VARCHAR(200) NOT NULL,
     image VARCHAR(6000) NOT NULL,
@@ -49,8 +48,6 @@ DROP TABLE users
 -- @block
 DROP TABLE product
 
--- change the id column to have default value of AUTO_INCREMENT
--- ALTER TABLE users ALTER COLUMN id INT ,
 
 
 -- @block
@@ -85,8 +82,7 @@ SELECT comment FROM reports WHERE user_id = 1;
 -- @block
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT, -- Foreign key to users table
-    -- total price and make some constraints
+    user_id INT,
     total_price INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -97,7 +93,6 @@ CREATE TABLE orders (
 SELECT * FROM `order`;
 
 -- @block
---  drop table orders
  drop table orders
 
 
@@ -106,16 +101,13 @@ SELECT * FROM orders JOIN order_items ON orders.id = order_items.order_id JOIN p
 
 
 -- @block
---  insert an order 
 INSERT INTO orders (user_id, total_price) VALUES (3, 1000); 
 
 -- @block
---  insert an order item
 INSERT INTO order_items (order_id, product_id, quantity) VALUES (2, 10, 3);
 
 
 -- @BLOCK
--- combine all the order items that have the same order_id 
 SELECT product.id, product.name, order_items.quantity
 FROM order_items
 INNER JOIN product ON order_items.product_id = product.id
@@ -124,7 +116,6 @@ WHERE order_items.order_id = 2
 
 
 -- @BLOCK
--- select all order_items that belongs to user 3
 SELECT order_items.id, order_items.order_id, order_items.product_id, order_items.quantity
 FROM order_items
 INNER JOIN orders ON order_items.order_id = orders.id
@@ -132,7 +123,6 @@ WHERE orders.user_id = 3
 
 
 -- @BLOCK
--- select all order_items that belongs to user 3
 SELECT orders.id AS order_id,
            product.id AS product_id, product.name AS product_name, product.price
     FROM orders
@@ -155,7 +145,6 @@ CREATE TABLE order_item (
 
 
 
--- deelte all rows from order_item
 -- @block
 DELETE FROM order_item;
 
